@@ -1,6 +1,8 @@
 package com.canoetravel.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +21,11 @@ public class UserController {
 	public UserController(UserService serv) {
 		this.userService = serv;
 	}
-	
-	@PostMapping(value="/signup")
-	public boolean registerUser(@RequestBody User user){
-		return userService.registerUser(user);
+
+	@PostMapping(value = "/signup")
+	public ResponseEntity<Boolean> registerUser(@RequestBody User user) {
+		boolean is_registered = userService.registerUser(user);
+		return new ResponseEntity<Boolean>(is_registered, HttpStatus.OK);
 	}
 
 }
