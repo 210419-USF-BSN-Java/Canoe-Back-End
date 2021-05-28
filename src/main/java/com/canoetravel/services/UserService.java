@@ -1,10 +1,12 @@
 package com.canoetravel.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.canoetravel.entities.User;
 import com.canoetravel.repository.UserRepository;
 
+@Service
 public class UserService {
 	
 	private UserRepository userRepo;
