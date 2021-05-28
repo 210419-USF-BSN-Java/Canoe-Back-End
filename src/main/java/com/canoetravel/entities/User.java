@@ -37,8 +37,8 @@ public class User {
 	@Column(name="is_active")
 	private boolean is_active;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_role_id", updatable = false, insertable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_role_id", updatable = true, insertable = true)
 	private UserRole user_role_id;
 	
 	public User() {}
