@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,7 @@ import com.canoetravel.services.UserService;
 
 @RestController
 @RequestMapping(value = "/user")
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
 	private UserService userService;
@@ -31,7 +32,7 @@ public class UserController {
 		this.userService = serv;
 	}
 
-	@PostMapping(value = "/signup")
+	@PostMapping(value = "/signup", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> registerUser(@RequestBody User user) {
 
 		if (userService.findByLogin(user.getUserLogin()) != null) {
@@ -43,12 +44,12 @@ public class UserController {
 			return new ResponseEntity<String>("User has been created", HttpStatus.OK);
 		}
 	}
-	
-	@PostMapping(value= "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public  ResponseEntity<User> authenticateLogin(@RequestBody User user, HttpServletRequest req) {
-		
+
+	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> authenticateLogin(@RequestBody User user, HttpServletRequest req) {
+
 		User authUser = userService.authenticateLogin(user.getUserLogin(), user.getUserLoginPassword());
-		
+
 		if (authUser != null && authUser.isActive() == true) {
 			HttpSession userSession = req.getSession();
 			userSession.setAttribute("authUser", authUser);
@@ -56,6 +57,23 @@ public class UserController {
 		} else {
 			return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);
 		}
+	}
+	
+	// use for the logout
+	@DeleteMapping (value="logout")
+	public ResponseEntity<Void> invalidateSession(HttpSession session) {
+		session.invalidate();
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+	
+	//use to check the active session of the user
+	@GetMapping
+	public ResponseEntity<User> checkLogin(HttpSession session) {
+		User authUser = (User) session.getAttribute("authUser");
+		if (authUser == null) {
+			return new ResponseEntity<User>(HttpStatus.FORBIDDEN);
+		} 
+		return new ResponseEntity<User>(authUser, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/allusers")
