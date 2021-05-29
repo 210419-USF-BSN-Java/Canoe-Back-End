@@ -3,23 +3,19 @@ package com.canoetravel.entities;
 import java.sql.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "local_food_info")
 public class LocalFood {
 
-	@Id
-	@Column(name = "local_food_id")
+	@EmbeddedId
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer localFoodId;
+	private LocalFoodId localFood;
 
 	@Column(name = "local_food_name")
 	private String locaFoodName;
@@ -30,34 +26,23 @@ public class LocalFood {
 	@Column(name = "booked_date")
 	private Date bookedDate;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "travel_destination_id", updatable = true, insertable = true)
-	private Destination travelDestinationId;
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id", updatable = true, insertable = true)
-	private User userId;
-
 	public LocalFood() {
 	}
 
-	public LocalFood(Integer localFoodId, String locaFoodName, String restaurantName, Date bookedDate,
-			Destination travelDestinationId, User userId) {
+	public LocalFood(LocalFoodId localFood, String locaFoodName, String restaurantName, Date bookedDate) {
 		super();
-		this.localFoodId = localFoodId;
+		this.localFood = localFood;
 		this.locaFoodName = locaFoodName;
 		this.restaurantName = restaurantName;
 		this.bookedDate = bookedDate;
-		this.travelDestinationId = travelDestinationId;
-		this.userId = userId;
 	}
 
-	public Integer getLocalFoodId() {
-		return localFoodId;
+	public LocalFoodId getLocalFood() {
+		return localFood;
 	}
 
-	public void setLocalFoodId(Integer localFoodId) {
-		this.localFoodId = localFoodId;
+	public void setLocalFood(LocalFoodId localFood) {
+		this.localFood = localFood;
 	}
 
 	public String getLocaFoodName() {
@@ -84,32 +69,14 @@ public class LocalFood {
 		this.bookedDate = bookedDate;
 	}
 
-	public Destination getTravelDestinationId() {
-		return travelDestinationId;
-	}
-
-	public void setTravelDestinationId(Destination travelDestinationId) {
-		this.travelDestinationId = travelDestinationId;
-	}
-
-	public User getUserId() {
-		return userId;
-	}
-
-	public void setUserId(User userId) {
-		this.userId = userId;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((bookedDate == null) ? 0 : bookedDate.hashCode());
 		result = prime * result + ((locaFoodName == null) ? 0 : locaFoodName.hashCode());
-		result = prime * result + ((localFoodId == null) ? 0 : localFoodId.hashCode());
+		result = prime * result + ((localFood == null) ? 0 : localFood.hashCode());
 		result = prime * result + ((restaurantName == null) ? 0 : restaurantName.hashCode());
-		result = prime * result + ((travelDestinationId == null) ? 0 : travelDestinationId.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
 
@@ -132,34 +99,23 @@ public class LocalFood {
 				return false;
 		} else if (!locaFoodName.equals(other.locaFoodName))
 			return false;
-		if (localFoodId == null) {
-			if (other.localFoodId != null)
+		if (localFood == null) {
+			if (other.localFood != null)
 				return false;
-		} else if (!localFoodId.equals(other.localFoodId))
+		} else if (!localFood.equals(other.localFood))
 			return false;
 		if (restaurantName == null) {
 			if (other.restaurantName != null)
 				return false;
 		} else if (!restaurantName.equals(other.restaurantName))
 			return false;
-		if (travelDestinationId == null) {
-			if (other.travelDestinationId != null)
-				return false;
-		} else if (!travelDestinationId.equals(other.travelDestinationId))
-			return false;
-		if (userId == null) {
-			if (other.userId != null)
-				return false;
-		} else if (!userId.equals(other.userId))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "LocalFood [localFoodId=" + localFoodId + ", locaFoodName=" + locaFoodName + ", restaurantName="
-				+ restaurantName + ", bookedDate=" + bookedDate + ", travelDestinationId=" + travelDestinationId
-				+ ", userId=" + userId + "]";
+		return "LocalFood [localFood=" + localFood + ", locaFoodName=" + locaFoodName + ", restaurantName="
+				+ restaurantName + ", bookedDate=" + bookedDate + "]";
 	}
 
 }

@@ -3,23 +3,19 @@ package com.canoetravel.entities;
 import java.sql.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "lodging_info")
 public class Lodging {
 
-	@Id
-	@Column(name = "lodging_info_id")
+	@EmbeddedId
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer lodgingInfoId;
+	private LodgingId lodgingId;
 
 	@Column(name = "hotel_name")
 	private String hotel_name;
@@ -33,35 +29,24 @@ public class Lodging {
 	@Column(name = "per_night_price")
 	private double pernightPrice;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "travel_destination_id", updatable = true, insertable = true)
-	private Destination travelDestinationId;
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id", updatable = true, insertable = true)
-	private User userId;
-
 	public Lodging() {
 	}
 
-	public Lodging(Integer lodgingInfoId, String hotel_name, Date checkInDate, Date checkOutDate, double pernightPrice,
-			Destination travelDestinationId, User userId) {
+	public Lodging(LodgingId lodgingId, String hotel_name, Date checkInDate, Date checkOutDate, double pernightPrice) {
 		super();
-		this.lodgingInfoId = lodgingInfoId;
+		this.lodgingId = lodgingId;
 		this.hotel_name = hotel_name;
 		this.checkInDate = checkInDate;
 		this.checkOutDate = checkOutDate;
 		this.pernightPrice = pernightPrice;
-		this.travelDestinationId = travelDestinationId;
-		this.userId = userId;
 	}
 
-	public Integer getLodgingInfoId() {
-		return lodgingInfoId;
+	public LodgingId getLodgingId() {
+		return lodgingId;
 	}
 
-	public void setLodgingInfoId(Integer lodgingInfoId) {
-		this.lodgingInfoId = lodgingInfoId;
+	public void setLodgingId(LodgingId lodgingId) {
+		this.lodgingId = lodgingId;
 	}
 
 	public String getHotel_name() {
@@ -96,22 +81,6 @@ public class Lodging {
 		this.pernightPrice = pernightPrice;
 	}
 
-	public Destination getTravelDestinationId() {
-		return travelDestinationId;
-	}
-
-	public void setTravelDestinationId(Destination travelDestinationId) {
-		this.travelDestinationId = travelDestinationId;
-	}
-
-	public User getUserId() {
-		return userId;
-	}
-
-	public void setUserId(User userId) {
-		this.userId = userId;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -119,12 +88,10 @@ public class Lodging {
 		result = prime * result + ((checkInDate == null) ? 0 : checkInDate.hashCode());
 		result = prime * result + ((checkOutDate == null) ? 0 : checkOutDate.hashCode());
 		result = prime * result + ((hotel_name == null) ? 0 : hotel_name.hashCode());
-		result = prime * result + ((lodgingInfoId == null) ? 0 : lodgingInfoId.hashCode());
+		result = prime * result + ((lodgingId == null) ? 0 : lodgingId.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(pernightPrice);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((travelDestinationId == null) ? 0 : travelDestinationId.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
 
@@ -152,31 +119,20 @@ public class Lodging {
 				return false;
 		} else if (!hotel_name.equals(other.hotel_name))
 			return false;
-		if (lodgingInfoId == null) {
-			if (other.lodgingInfoId != null)
+		if (lodgingId == null) {
+			if (other.lodgingId != null)
 				return false;
-		} else if (!lodgingInfoId.equals(other.lodgingInfoId))
+		} else if (!lodgingId.equals(other.lodgingId))
 			return false;
 		if (Double.doubleToLongBits(pernightPrice) != Double.doubleToLongBits(other.pernightPrice))
-			return false;
-		if (travelDestinationId == null) {
-			if (other.travelDestinationId != null)
-				return false;
-		} else if (!travelDestinationId.equals(other.travelDestinationId))
-			return false;
-		if (userId == null) {
-			if (other.userId != null)
-				return false;
-		} else if (!userId.equals(other.userId))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Lodging [lodgingInfoId=" + lodgingInfoId + ", hotel_name=" + hotel_name + ", checkInDate=" + checkInDate
-				+ ", checkOutDate=" + checkOutDate + ", pernightPrice=" + pernightPrice + ", travelDestinationId="
-				+ travelDestinationId + ", userId=" + userId + "]";
+		return "Lodging [lodgingId=" + lodgingId + ", hotel_name=" + hotel_name + ", checkInDate=" + checkInDate
+				+ ", checkOutDate=" + checkOutDate + ", pernightPrice=" + pernightPrice + "]";
 	}
 
 }

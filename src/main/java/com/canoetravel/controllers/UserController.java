@@ -60,7 +60,7 @@ public class UserController {
 	}
 	
 	// use for the logout
-	@DeleteMapping (value="logout")
+	@DeleteMapping (value="/logout")
 	public ResponseEntity<Void> invalidateSession(HttpSession session) {
 		session.invalidate();
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
