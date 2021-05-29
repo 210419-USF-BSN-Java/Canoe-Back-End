@@ -47,4 +47,8 @@ public class UserService {
 	public User findByEmail(String email) {
 		return userRepo.findByUserEmail(email);
 	}
+	
+	public User authenticateLogin(String login, String loginPassword) {
+		return userRepo.findByUserLoginAndUserLoginPassword(login, loginPassword);
+	}
 }
