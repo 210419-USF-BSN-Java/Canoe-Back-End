@@ -12,40 +12,39 @@ import com.canoetravel.repository.UserRoleRepository;
 
 @Service
 public class UserService {
-	
+
 	private UserRepository userRepo;
 	private UserRoleRepository uRoleRepo;
 
 	public UserService() {
-		
+
 	}
-	
+
 	@Autowired
 	public UserService(UserRepository userRepo, UserRoleRepository uRoleRepo) {
 		this.userRepo = userRepo;
 		this.uRoleRepo = uRoleRepo;
 	}
-	
+
 	public boolean registerUser(User user) {
-		try {
-			UserRole userRole = uRoleRepo.findByUserRole("user");
-			user.setUserRoleId(userRole);
-			user.setActive(true);
-			userRepo.save(user);
-			return true;
-		}catch(Exception e) {
-			return false;
-		}
-	}
-	
-	public List<User> getAllUsers(){
-		try {
-			System.out.println("==============================================");
-			System.out.println(userRepo.findAll());
-			return userRepo.findAll();
-		}catch(Exception e) {
-			return null;
-		}
+		UserRole userRole = uRoleRepo.findByUserRole("user");
+		user.setUserRoleId(userRole);
+		user.setActive(true);
+		userRepo.save(user);
+		return true;
+
 	}
 
+	public List<User> getAllUsers() {
+		return userRepo.findAll();
+
+	}
+	
+	public User findByLogin(String Login) {
+		return userRepo.findByUserLogin(Login);
+	}
+	
+	public User findByEmail(String email) {
+		return userRepo.findByUserEmail(email);
+	}
 }

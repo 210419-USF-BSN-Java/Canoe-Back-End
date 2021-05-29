@@ -26,11 +26,18 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/signup")
-	public ResponseEntity<Boolean> registerUser(@RequestBody User user) {
-		boolean is_registered = userService.registerUser(user);
-		return new ResponseEntity<Boolean>(is_registered, HttpStatus.OK);
+	public ResponseEntity<String> registerUser(@RequestBody User user) {
+
+		if (userService.findByLogin(user.getUserLogin()) != null) {
+			return new ResponseEntity<String>("Username already exists", HttpStatus.BAD_REQUEST);
+		} else if (userService.findByEmail(user.getUserEmail()) != null) {
+			return new ResponseEntity<String>("Email already exists", HttpStatus.BAD_REQUEST);
+		} else {
+			userService.registerUser(user);
+			return new ResponseEntity<String>("User has been created", HttpStatus.OK);
+		}
 	}
-	
+
 	@GetMapping(value = "/allusers")
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> allUsers = userService.getAllUsers();
