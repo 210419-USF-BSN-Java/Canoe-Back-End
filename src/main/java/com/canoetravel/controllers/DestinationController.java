@@ -41,6 +41,8 @@ public class DestinationController {
 		return new ResponseEntity<String>("destination saved", HttpStatus.OK);
 	}
 	
+	
+	// TODO below code is Just for testing purpose need to delete or secured for employee/admin user only
 	@GetMapping(value = "/allDestination")
 	public ResponseEntity<List<Destination>> getAllUsers() {
 		List<Destination> alldestination = destService.getAllDestination();
