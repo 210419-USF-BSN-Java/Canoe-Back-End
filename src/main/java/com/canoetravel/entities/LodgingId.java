@@ -19,9 +19,10 @@ public class LodgingId implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({
 			@JoinColumn(name = "travel_destination_id", referencedColumnName = "destination_id", updatable = true, insertable = true),
-			@JoinColumn(name = "user_id", referencedColumnName = "user_id", updatable = true, insertable = true) })
+			@JoinColumn(name = "user_id", referencedColumnName = "dest_to_user_id", updatable = true, insertable = true) })
 	private Destination travelDestinationId;
 
+	
 	public LodgingId(Integer lodgingInfoId, Destination travelDestinationId) {
 		super();
 		this.lodgingInfoId = lodgingInfoId;

@@ -36,12 +36,12 @@ public class UserController {
 	public ResponseEntity<String> registerUser(@RequestBody User user) {
 
 		if (userService.findByLogin(user.getUserLogin()) != null) {
-			return new ResponseEntity<String>("Username already exists", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("{\"message\":  \" Username already exists\"}", HttpStatus.BAD_REQUEST);
 		} else if (userService.findByEmail(user.getUserEmail()) != null) {
-			return new ResponseEntity<String>("Email already exists", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("{\"message\":  \" Email already exists\"}", HttpStatus.BAD_REQUEST);
 		} else {
 			userService.registerUser(user);
-			return new ResponseEntity<String>("User has been created", HttpStatus.OK);
+			return new ResponseEntity<String>("{\"message\":  \" User has been created\"}", HttpStatus.OK);
 		}
 	}
 

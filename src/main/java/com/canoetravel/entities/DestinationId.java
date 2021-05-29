@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -13,9 +15,11 @@ public class DestinationId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Column(name = "destination_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer destinationId;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id", updatable = true, insertable = true)
+	@JoinColumn(name = "dest_to_user_id", updatable = true, insertable = true)
 	private User customerId;
 
 	public DestinationId() {
@@ -24,6 +28,11 @@ public class DestinationId implements Serializable {
 	public DestinationId(Integer destinationId, User customerId) {
 		super();
 		this.destinationId = destinationId;
+		this.customerId = customerId;
+	}
+	
+	public DestinationId(User customerId) {
+		super();
 		this.customerId = customerId;
 	}
 
