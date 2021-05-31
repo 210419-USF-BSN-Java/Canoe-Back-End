@@ -33,14 +33,23 @@ public class DestinationController {
 
 	@PostMapping(value = "/saveDestination")
 	public ResponseEntity<String> saveDestination(@RequestBody Destination dest, HttpServletRequest req) {
+
 		HttpSession session = req.getSession(false);
-		User authUser = (User) session.getAttribute("authUser");
-		dest = destService.saveDestination(dest, authUser);
-		if (dest != null) {
-			session.setAttribute("destination", dest);
-			return new ResponseEntity<String>("destination saved", HttpStatus.ACCEPTED);
+		if (session != null) {
+			User authUser = (User) session.getAttribute("authUser");
+			if (authUser != null) {
+				dest = destService.saveDestination(dest, authUser);
+				if (dest != null) {
+					session.setAttribute("destination", dest);
+					return new ResponseEntity<String>("destination saved", HttpStatus.ACCEPTED);
+				} else {
+					return new ResponseEntity<String>("can not save destination", HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+			} else {
+				return new ResponseEntity<String>("user not found", HttpStatus.BAD_REQUEST);
+			}
 		} else {
-			return new ResponseEntity<String>("can not save the destination", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.BAD_REQUEST);
 
 		}
 	}
