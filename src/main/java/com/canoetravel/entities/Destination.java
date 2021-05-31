@@ -1,19 +1,24 @@
 package com.canoetravel.entities;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "travel_destination")
+//@IdClass(DestinationId.class)
 public class Destination {
 
-	@EmbeddedId
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private DestinationId destinationId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "destination_id", columnDefinition = "serial")
+	private Integer destinationId;
 
 	@Column(name = "destination_country")
 	private String destinationCountry;
@@ -21,21 +26,30 @@ public class Destination {
 	@Column(name = "destination_city")
 	private String destinationCity;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "dest_to_user_id", updatable = false, insertable = false)
+	private User customer;
+	
+	@Column(name = "dest_to_user_id")
+	private Integer customerId;
+	
+
 	public Destination() {
 	}
 
-	public Destination(DestinationId destinationId, String destinationCountry, String destinationCity) {
+	public Destination(Integer destinationId, String destinationCountry, String destinationCity, User customer) {
 		super();
 		this.destinationId = destinationId;
 		this.destinationCountry = destinationCountry;
 		this.destinationCity = destinationCity;
+		this.customer = customer;
 	}
 
-	public DestinationId getDestinationId() {
+	public Integer getDestinationId() {
 		return destinationId;
 	}
 
-	public void setDestinationId(DestinationId destinationId) {
+	public void setDestinationId(Integer destinationId) {
 		this.destinationId = destinationId;
 	}
 
@@ -55,10 +69,27 @@ public class Destination {
 		this.destinationCity = destinationCity;
 	}
 
+	public User getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(User customer) {
+		this.customer = customer;
+	}
+
+	public Integer getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
 		result = prime * result + ((destinationCity == null) ? 0 : destinationCity.hashCode());
 		result = prime * result + ((destinationCountry == null) ? 0 : destinationCountry.hashCode());
 		result = prime * result + ((destinationId == null) ? 0 : destinationId.hashCode());
@@ -74,6 +105,11 @@ public class Destination {
 		if (getClass() != obj.getClass())
 			return false;
 		Destination other = (Destination) obj;
+		if (customer == null) {
+			if (other.customer != null)
+				return false;
+		} else if (!customer.equals(other.customer))
+			return false;
 		if (destinationCity == null) {
 			if (other.destinationCity != null)
 				return false;
@@ -95,7 +131,7 @@ public class Destination {
 	@Override
 	public String toString() {
 		return "Destination [destinationId=" + destinationId + ", destinationCountry=" + destinationCountry
-				+ ", destinationCity=" + destinationCity + "]";
+				+ ", destinationCity=" + destinationCity + ", customer=" + customer + "]";
 	}
 
 }

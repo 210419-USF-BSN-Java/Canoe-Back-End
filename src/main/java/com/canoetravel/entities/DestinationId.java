@@ -3,36 +3,26 @@ package com.canoetravel.entities;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
-@Embeddable
 public class DestinationId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Column(name = "destination_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "destination_id", columnDefinition = "serial")
 	private Integer destinationId;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "dest_to_user_id", updatable = true, insertable = true)
-	private User customerId;
+	@Column(name = "dest_to_user_id")
+	private Integer customerId;
 
 	public DestinationId() {
 	}
 
-	public DestinationId(Integer destinationId, User customerId) {
+	public DestinationId(Integer destinationId, Integer customerId) {
 		super();
 		this.destinationId = destinationId;
-		this.customerId = customerId;
-	}
-	
-	public DestinationId(User customerId) {
-		super();
 		this.customerId = customerId;
 	}
 
@@ -44,11 +34,11 @@ public class DestinationId implements Serializable {
 		this.destinationId = destinationId;
 	}
 
-	public User getCustomerId() {
+	public Integer getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(User customerId) {
+	public void setCustomerId(Integer customerId) {
 		this.customerId = customerId;
 	}
 
