@@ -49,7 +49,7 @@ public class DestinationController {
 				return new ResponseEntity<String>("user not found", HttpStatus.BAD_REQUEST);
 			}
 		} else {
-			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
 
 		}
 	}
