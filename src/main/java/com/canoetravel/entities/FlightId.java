@@ -16,6 +16,7 @@ public class FlightId implements Serializable {
 
 	@Column(name = "flight_info_id")
 	private Integer flightInfoId;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({
 			@JoinColumn(name = "travel_destination_id", referencedColumnName = "destination_id", updatable = true, insertable = true),

@@ -43,10 +43,10 @@ public class DestinationController {
 					session.setAttribute("destination", dest);
 					return new ResponseEntity<String>("destination saved", HttpStatus.ACCEPTED);
 				} else {
-					return new ResponseEntity<String>("can not save destination", HttpStatus.INTERNAL_SERVER_ERROR);
+					return new ResponseEntity<String>("can not save destination - something went worng", HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 			} else {
-				return new ResponseEntity<String>("user not found", HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<String>("user not found - something went wrong", HttpStatus.BAD_REQUEST);
 			}
 		} else {
 			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
@@ -54,7 +54,7 @@ public class DestinationController {
 		}
 	}
 
-	// TODO below code is Just for testing purpose need to delete or secured for
+	// TODO below code is Just for testing purposes, need to delete or secured for
 	// employee/admin user only
 	@GetMapping(value = "/allDestination")
 	public ResponseEntity<List<Destination>> getAllUsers() {

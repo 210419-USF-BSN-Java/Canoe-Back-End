@@ -1,6 +1,7 @@
 package com.canoetravel.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,29 +31,35 @@ public class UserService {
 		UserRole userRole = uRoleRepo.findByUserRole("user");
 		user.setUserRoleId(userRole);
 		user.setActive(true);
-		userRepo.save(user);
-		return true;
+		User isSaved = userRepo.save(user);
+		if (isSaved != null) {
 
+			return true;
+		} else {
+			return false;
+		}
 	}
+
 
 	public List<User> getAllUsers() {
 		return userRepo.findAll();
 
 	}
-	
+
 	public User findByLogin(String Login) {
 		return userRepo.findByUserLogin(Login);
 	}
-	
+
 	public User findByEmail(String email) {
 		return userRepo.findByUserEmail(email);
 	}
-	
+
 	public User authenticateLogin(String login, String loginPassword) {
 		return userRepo.findByUserLoginAndUserLoginPassword(login, loginPassword);
 	}
-	
+
 	public User updateUserInfo(User user) {
 		return userRepo.save(user);
 	}
+	
 }

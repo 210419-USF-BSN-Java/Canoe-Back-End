@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,48 +59,61 @@ public class UserController {
 			return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);
 		}
 	}
-	
-	@DeleteMapping (value="/logout")
+
+	@DeleteMapping(value = "/logout")
 	public ResponseEntity<Void> invalidateSession(HttpSession session) {
 		session.invalidate();
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@GetMapping
 	public ResponseEntity<User> checkLogin(HttpSession session) {
 		User authUser = (User) session.getAttribute("authUser");
 		if (authUser == null) {
 			return new ResponseEntity<User>(HttpStatus.FORBIDDEN);
-		} 
+		}
 		return new ResponseEntity<User>(authUser, HttpStatus.OK);
 	}
-	
-	// TODO below code is Just for testing purpose need to delete or secured for employee/admin user only
+
+	// TODO below code is Just for testing purpose need to delete or secured for
+	// employee/admin user only
 	@GetMapping(value = "/allusers")
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> allUsers = userService.getAllUsers();
 		return new ResponseEntity<List<User>>(allUsers, HttpStatus.OK);
 	}
-	
-	@PostMapping(value = "/updateuser", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> updateUserInfo(@RequestBody User user, HttpServletRequest req) {
-		System.out.println(user);
-		User authUser = userService.updateUserInfo(user);
-		System.out.println("authUser is " + authUser);
-		if(authUser != null) {
-		return new ResponseEntity<String>("user updated succesfully", HttpStatus.OK);
-		} else {
-		return new ResponseEntity<String>("unable to update the user", HttpStatus.BAD_REQUEST);
-		}
-	
 
-//		if (authUser != null && authUser.isActive() == true) {
-//			HttpSession userSession = req.getSession();
-//			userSession.setAttribute("authUser", authUser);
-//			return new ResponseEntity<User>(authUser, HttpStatus.ACCEPTED);
-//		} else {
-//			return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);
-//		}
+	@PutMapping(value = "/updateuser", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> updateUserInfo(@RequestBody User user, HttpServletRequest req) {
+
+		HttpSession session = req.getSession(false);
+		if (session != null) {
+			User sessionUser = (User) session.getAttribute("authUser");
+
+			if (!user.getUserFname().equalsIgnoreCase(null) && !user.getUserFname().isEmpty()
+					&& !user.getUserFname().isBlank()) {
+				sessionUser.setUserFname(user.getUserFname());
+			}
+			if (!user.getUserLname().equalsIgnoreCase(null) && !user.getUserLname().isEmpty()
+					&& !user.getUserLname().isBlank()) {
+				sessionUser.setUserLname(user.getUserLname());
+			}
+			if (!user.getUserEmail().equalsIgnoreCase(null) && !!user.getUserEmail().isEmpty()
+					&& !user.getUserLname().isEmpty()) {
+				sessionUser.setUserEmail(user.getUserEmail());
+			}
+			
+			User updatedUser = userService.updateUserInfo(sessionUser);
+			if (!updatedUser.equals(null)) {
+				session.setAttribute("authUser", updatedUser);
+				return new ResponseEntity<String>("user updated succesfully", HttpStatus.OK);
+			} else {
+				return new ResponseEntity<String>("unable to update the user", HttpStatus.BAD_REQUEST);
+			}
+		} else {
+			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
+
+		}
 	}
 
 }
