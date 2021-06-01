@@ -51,4 +51,8 @@ public class UserService {
 	public User authenticateLogin(String login, String loginPassword) {
 		return userRepo.findByUserLoginAndUserLoginPassword(login, loginPassword);
 	}
+	
+	public User updateUserInfo(User user) {
+		return userRepo.save(user);
+	}
 }

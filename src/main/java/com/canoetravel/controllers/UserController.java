@@ -80,5 +80,26 @@ public class UserController {
 		List<User> allUsers = userService.getAllUsers();
 		return new ResponseEntity<List<User>>(allUsers, HttpStatus.OK);
 	}
+	
+	@PostMapping(value = "/updateuser", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> updateUserInfo(@RequestBody User user, HttpServletRequest req) {
+		System.out.println(user);
+		User authUser = userService.updateUserInfo(user);
+		System.out.println("authUser is " + authUser);
+		if(authUser != null) {
+		return new ResponseEntity<String>("user updated succesfully", HttpStatus.OK);
+		} else {
+		return new ResponseEntity<String>("unable to update the user", HttpStatus.BAD_REQUEST);
+		}
+	
+
+//		if (authUser != null && authUser.isActive() == true) {
+//			HttpSession userSession = req.getSession();
+//			userSession.setAttribute("authUser", authUser);
+//			return new ResponseEntity<User>(authUser, HttpStatus.ACCEPTED);
+//		} else {
+//			return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);
+//		}
+	}
 
 }
