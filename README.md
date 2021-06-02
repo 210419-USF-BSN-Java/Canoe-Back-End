@@ -41,8 +41,8 @@ In your browser paste the url http://localhost:8085/canoe-travel-app/signup
 
 ## Technology Used ##
 Java, Backend Programming Language </br>
-HTML + CSS + TypeScript, Angular Frontend Programming Languages </br?
-Spring Framewrok, Spring MVC, Spring Data Build Automation and DB Interactivity 
+HTML + CSS + TypeScript, Angular Frontend Programming Languages </br>
+Spring Framewrok, Spring MVC, Spring Data Build Automation and DB Interactivity </br>
 PostgreSQL, Relational Database Management System </br>
 AWS RDS, Cloud Based Distributed Relational Database Service </br>
 JUnit, Mockito, Unit Testing Framework </br>
