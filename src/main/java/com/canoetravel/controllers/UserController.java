@@ -83,7 +83,7 @@ public class UserController {
 		return new ResponseEntity<List<User>>(allUsers, HttpStatus.OK);
 	}
 
-	@PutMapping(value = "/updateuser", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/updateuser")
 	public ResponseEntity<String> updateUserInfo(@RequestBody User user, HttpServletRequest req) {
 
 		HttpSession session = req.getSession(false);
@@ -98,7 +98,7 @@ public class UserController {
 					&& !user.getUserLname().isBlank()) {
 				sessionUser.setUserLname(user.getUserLname());
 			}
-			if (!user.getUserEmail().equalsIgnoreCase(null) && !!user.getUserEmail().isEmpty()
+			if (!user.getUserEmail().equalsIgnoreCase(null) && !user.getUserEmail().isEmpty()
 					&& !user.getUserLname().isEmpty()) {
 				sessionUser.setUserEmail(user.getUserEmail());
 			}
@@ -115,5 +115,4 @@ public class UserController {
 
 		}
 	}
-
 }

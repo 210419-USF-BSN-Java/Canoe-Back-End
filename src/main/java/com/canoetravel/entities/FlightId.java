@@ -5,8 +5,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 
 @Embeddable
@@ -14,22 +15,26 @@ public class FlightId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "flight_info_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "flight_info_id", columnDefinition = "serial")
 	private Integer flightInfoId;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumns({
-			@JoinColumn(name = "travel_destination_id", referencedColumnName = "destination_id", updatable = true, insertable = true),
-			@JoinColumn(name = "user_id", referencedColumnName = "dest_to_user_id", updatable = true, insertable = true) })
-	private Destination travelDestinationId;
+	@JoinColumn(name = "travel_destination_id", referencedColumnName = "destination_id", updatable = true, insertable = true)
+	private Destination travelDestination;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id", referencedColumnName = "user_id", updatable = true, insertable = true)
+	private User user;
 
 	public FlightId() {
 	}
 
-	public FlightId(Integer flightInfoId, Destination travelDestinationId) {
+	public FlightId(Integer flightInfoId, Destination travelDestination, User user) {
 		super();
 		this.flightInfoId = flightInfoId;
-		this.travelDestinationId = travelDestinationId;
+		this.travelDestination = travelDestination;
+		this.user = user;
 	}
 
 	public Integer getFlightInfoId() {
@@ -40,12 +45,20 @@ public class FlightId implements Serializable {
 		this.flightInfoId = flightInfoId;
 	}
 
-	public Destination getTravelDestinationId() {
-		return travelDestinationId;
+	public Destination getTravelDestination() {
+		return travelDestination;
 	}
 
-	public void setTravelDestinationId(Destination travelDestinationId) {
-		this.travelDestinationId = travelDestinationId;
+	public void setTravelDestination(Destination travelDestination) {
+		this.travelDestination = travelDestination;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public static long getSerialversionuid() {
@@ -57,7 +70,8 @@ public class FlightId implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((flightInfoId == null) ? 0 : flightInfoId.hashCode());
-		result = prime * result + ((travelDestinationId == null) ? 0 : travelDestinationId.hashCode());
+		result = prime * result + ((travelDestination == null) ? 0 : travelDestination.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -75,17 +89,23 @@ public class FlightId implements Serializable {
 				return false;
 		} else if (!flightInfoId.equals(other.flightInfoId))
 			return false;
-		if (travelDestinationId == null) {
-			if (other.travelDestinationId != null)
+		if (travelDestination == null) {
+			if (other.travelDestination != null)
 				return false;
-		} else if (!travelDestinationId.equals(other.travelDestinationId))
+		} else if (!travelDestination.equals(other.travelDestination))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "FlightId [flightInfoId=" + flightInfoId + ", travelDestinationId=" + travelDestinationId + "]";
+		return "FlightId [flightInfoId=" + flightInfoId + ", travelDestination=" + travelDestination + ", user=" + user
+				+ "]";
 	}
 
 }
