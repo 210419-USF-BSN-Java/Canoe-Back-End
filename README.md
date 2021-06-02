@@ -8,19 +8,18 @@ All the details of traveling can be difficult to plan and manage. Canoe is an ap
 git clone https://github.com/210419-USF-BSN-Java/Canoe-Back-End
 #### To set up front end ####
 https://github.com/210419-USF-BSN-Java/canoe-front
-##### After cloning the project unzip the folder, set up database and import Canoe-Back-End folder to integrated development environment Eclipse/Intellij/Visual Studio #####
-
-##### To set up project in Eclipse #####
+#### After cloning the project unzip the folder, set up database and import Canoe-Back-End folder to integrated development environment Eclipse/Intellij/Visual Studio ####
+#### To set up project in Eclipse ####
 File => Open Projects from File System => Directory </br>
 choose the location for the project Canoe-Back-End </br>
 Select Folder and Finish </br>
 Go to src/main/resources </br>
 open the application.properties file and change spring.datasource.url, spring.datasource.username, spring.datasource.password as database url, username and password of your database
-##### After importing the project and changing DB credentials in properties.application file #####
-Right click on project => Run As => Spring Boot APP
+#### After importing the project and changing DB credentials in properties.application file ####
+Right click on project => Run As => Spring Boot APP </br>
 In your browser paste the url http://localhost:8085/canoe-travel-app/signup
 
-##### After Opening the application in browser #####
+#### After Opening the application in browser ####
   ##### User #####
 - User can signup
 - User can login
@@ -40,7 +39,7 @@ In your browser paste the url http://localhost:8085/canoe-travel-app/signup
 - Admin can view all Users
 - Admin can freeze User account
 
-### Technology Used ###
+## Technology Used ##
 Java, Backend Programming Language </br>
 HTML + CSS + TypeScript, Angular Frontend Programming Languages </br?
 Spring Framewrok, Spring MVC, Spring Data Build Automation and DB Interactivity 
@@ -49,7 +48,7 @@ AWS RDS, Cloud Based Distributed Relational Database Service </br>
 JUnit, Mockito, Unit Testing Framework </br>
 Log4j, Logging Utility </br>
 
-### Stretch ###
+## Stretch ##
 System sends email confirmation of account creation (stretch?) </br>
 Admin can view graphs of user data in dashboard </br>
 User can upgrade account to premium with extra feature like Covid search, crime data </br>
