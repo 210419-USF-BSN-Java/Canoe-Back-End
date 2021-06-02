@@ -9,5 +9,6 @@ public interface IDestinationService {
 	public Destination saveDestination(Destination dest, User user);
 	public List<Destination> getAllDestination();
 	public Destination updateDestination(Destination dest);
+	public Destination deleteDestination(Destination dest);
 
 }
