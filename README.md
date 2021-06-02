@@ -6,5 +6,5 @@ All the details of traveling can be difficult to plan and manage. Canoe is an ap
 ### Getting Started ###
 #### Clone the project to the local environment ####
 git clone https://github.com/210419-USF-BSN-Java/Canoe-Back-End
-##### After cloning the project unzip the folder, set up database and import ers-project-1 to integrated development environment Eclipse/Intellij/Visual Studio #####
+##### After cloning the project unzip the folder, set up database and import Canoe-Back-End folder to integrated development environment Eclipse/Intellij/Visual Studio #####
 
