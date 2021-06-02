@@ -61,5 +61,30 @@ public class DestinationController {
 		List<Destination> alldestination = destService.getAllDestination();
 		return new ResponseEntity<List<Destination>>(alldestination, HttpStatus.OK);
 	}
+	
+	
+	@PostMapping(value = "/saveDestination")
+	public ResponseEntity<String> updateDestination(@RequestBody Destination dest, HttpServletRequest req) {
+
+		HttpSession session = req.getSession(false);
+		if (session != null) {
+			User authUser = (User) session.getAttribute("authUser");
+			if (authUser != null) {
+				dest.setCustomerId(authUser.getUserId());
+				dest = destService.updateDestination(dest);
+				if (dest != null) {
+					session.setAttribute("destination", dest);
+					return new ResponseEntity<String>("destination updated", HttpStatus.ACCEPTED);
+				} else {
+					return new ResponseEntity<String>("can not update destination - something went worng", HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+			} else {
+				return new ResponseEntity<String>("user not found - something went wrong", HttpStatus.BAD_REQUEST);
+			}
+		} else {
+			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
+
+		}
+	}
 
 }
