@@ -63,7 +63,7 @@ public class DestinationController {
 	}
 	
 	
-	@PostMapping(value = "/saveDestination")
+	@PostMapping(value = "/updateDestination")
 	public ResponseEntity<String> updateDestination(@RequestBody Destination dest, HttpServletRequest req) {
 
 		HttpSession session = req.getSession(false);
