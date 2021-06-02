@@ -48,6 +48,13 @@ AWS RDS, Cloud Based Distributed Relational Database Service </br>
 JUnit, Mockito, Unit Testing Framework </br>
 Log4j, Logging Utility </br>
 
+## Contributors ##
+Thomas Dixon </br>
+Felix Nguyen </br>
+Aliaksei Ivanchyk </br>
+Kevin Cho </br>
+Acharya Deveraj 
+
 ## Stretch ##
 System sends email confirmation of account creation (stretch?) </br>
 Admin can view graphs of user data in dashboard </br>
