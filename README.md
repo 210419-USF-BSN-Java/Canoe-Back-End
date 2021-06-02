@@ -53,7 +53,7 @@ Thomas Dixon </br>
 Felix Nguyen </br>
 Aliaksei Ivanchyk </br>
 Kevin Cho </br>
-Acharya Deveraj 
+Devaraj Acharya
 
 ## Stretch ##
 System sends email confirmation of account creation (stretch?) </br>
