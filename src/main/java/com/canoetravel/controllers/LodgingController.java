@@ -12,11 +12,11 @@ import com.canoetravel.services.LodgingService;
 @CrossOrigin(origins = "http://localhost:4200")
 public class LodgingController {
 
-	private LodgingService lodService;
+	private LodgingService lodgeService;
 	
 	@Autowired
-	public LodgingController(LodgingService serv) {
-		this.lodService = serv;
+	public LodgingController(LodgingService lodgeService) {
+		this.lodgeService = lodgeService;
 	}
 
 }
