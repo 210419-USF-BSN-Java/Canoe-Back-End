@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.canoetravel.services.DestinationService;
 import com.canoetravel.services.LodgingService;
 
 @RestController
