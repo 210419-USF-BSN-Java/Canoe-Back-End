@@ -41,7 +41,6 @@ public class FlightController {
 		HttpSession session = req.getSession(false);
 		if (session != null) {
 			User authUser = (User) session.getAttribute("authUser");
-
 			Destination dest = (Destination) session.getAttribute("destination");
 
 			if (dest != null) {

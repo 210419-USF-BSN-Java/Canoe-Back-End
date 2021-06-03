@@ -12,7 +12,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "travel_destination")
-//@IdClass(DestinationId.class)
 public class Destination {
 
 	@Id
@@ -97,6 +96,7 @@ public class Destination {
 	}
 
 	public User getCustomer() {
+		
 		return customer;
 	}
 
