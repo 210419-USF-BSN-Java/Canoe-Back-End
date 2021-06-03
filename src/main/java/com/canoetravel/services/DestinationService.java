@@ -37,10 +37,10 @@ public class DestinationService implements IDestinationService {
 		return destRepo.save(dest);
 	}
 
-	@Override
-	public Destination deleteDestination(Destination dest) {
-		return destRepo.deleteByCustomerIdAndDestinationId(dest.getCustomerId(), dest.getDestinationId());
-	}
+//	@Override
+//	public Destination deleteDestination(Destination dest) {
+//		//return destRepo.deleteByCustomerIdAndDestinationId(dest.getCustomerId(), dest.getDestinationId());
+//	}
 	
 
 }

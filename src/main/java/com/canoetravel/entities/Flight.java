@@ -18,7 +18,7 @@ import javax.persistence.Table;
 public class Flight {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "flight_info_id", columnDefinition = "serial")
 	private Integer flightInfoId;
 
@@ -43,16 +43,16 @@ public class Flight {
 	@Column(name = "flight_price")
 	private double flightPrice;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id", updatable = false, insertable = false)
-	private User customer;
+//	@ManyToOne(fetch = FetchType.EAGER)
+//	@Column(name = "user_id")
+//	private User customer;
 
 	@Column(name = "user_id")
 	private Integer customerId;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "travel_destination_id", updatable = false, insertable = false)
-	private Destination destination;
+//	@ManyToOne(fetch = FetchType.EAGER)
+//	@JoinColumn(name = "travel_destination_id", updatable = false, insertable = false)
+//	private Destination destination;
 
 	@Column(name = "travel_destination_id")
 	private Integer destinationId;
@@ -72,10 +72,10 @@ public class Flight {
 		this.arrivalAirport = arrivalAirport;
 		this.arrivalDate = arrivalDate;
 		this.flightPrice = flightPrice;
-		this.customer = customer;
-		this.customerId = customerId;
-		this.destination = destination;
-		this.destinationId = destinationId;
+		//this.customer = customer;
+		//this.customerId = customerId;
+		//this.destination = destination;
+		//this.destinationId = destinationId;
 	}
 
 	public Integer getFlightInfoId() {
@@ -142,13 +142,13 @@ public class Flight {
 		this.flightPrice = flightPrice;
 	}
 
-	public User getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(User customer) {
-		this.customer = customer;
-	}
+//	public User getCustomer() {
+//		return customer;
+//	}
+//
+//	public void setCustomer(User customer) {
+//		this.customer = customer;
+//	}
 
 	public Integer getCustomerId() {
 		return customerId;
@@ -158,13 +158,13 @@ public class Flight {
 		this.customerId = customerId;
 	}
 
-	public Destination getDestination() {
-		return destination;
-	}
-
-	public void setDestination(Destination destination) {
-		this.destination = destination;
-	}
+//	public Destination getDestination() {
+//		return destination;
+//	}
+//
+//	public void setDestination(Destination destination) {
+//		this.destination = destination;
+//	}
 
 	public Integer getDestinationId() {
 		return destinationId;
@@ -181,12 +181,12 @@ public class Flight {
 		result = prime * result + ((airlineName == null) ? 0 : airlineName.hashCode());
 		result = prime * result + ((arrivalAirport == null) ? 0 : arrivalAirport.hashCode());
 		result = prime * result + ((arrivalDate == null) ? 0 : arrivalDate.hashCode());
-		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
-		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
+		//result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		//result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
 		result = prime * result + ((departAirport == null) ? 0 : departAirport.hashCode());
 		result = prime * result + ((departDate == null) ? 0 : departDate.hashCode());
-		result = prime * result + ((destination == null) ? 0 : destination.hashCode());
-		result = prime * result + ((destinationId == null) ? 0 : destinationId.hashCode());
+	//	result = prime * result + ((destination == null) ? 0 : destination.hashCode());
+		//result = prime * result + ((destinationId == null) ? 0 : destinationId.hashCode());
 		result = prime * result + ((flightInfoId == null) ? 0 : flightInfoId.hashCode());
 		result = prime * result + ((flightNo == null) ? 0 : flightNo.hashCode());
 		long temp;
@@ -219,16 +219,16 @@ public class Flight {
 				return false;
 		} else if (!arrivalDate.equals(other.arrivalDate))
 			return false;
-		if (customer == null) {
-			if (other.customer != null)
-				return false;
-		} else if (!customer.equals(other.customer))
-			return false;
-		if (customerId == null) {
-			if (other.customerId != null)
-				return false;
-		} else if (!customerId.equals(other.customerId))
-			return false;
+//		if (customer == null) {
+//			if (other.customer != null)
+//				return false;
+//		} else if (!customer.equals(other.customer))
+//			return false;
+//		if (customerId == null) {
+//			if (other.customerId != null)
+//				return false;
+//		} else if (!customerId.equals(other.customerId))
+//			return false;
 		if (departAirport == null) {
 			if (other.departAirport != null)
 				return false;
@@ -239,16 +239,16 @@ public class Flight {
 				return false;
 		} else if (!departDate.equals(other.departDate))
 			return false;
-		if (destination == null) {
-			if (other.destination != null)
-				return false;
-		} else if (!destination.equals(other.destination))
-			return false;
-		if (destinationId == null) {
-			if (other.destinationId != null)
-				return false;
-		} else if (!destinationId.equals(other.destinationId))
-			return false;
+//		if (destination == null) {
+//			if (other.destination != null)
+//				return false;
+//		} else if (!destination.equals(other.destination))
+//			return false;
+//		if (destinationId == null) {
+//			if (other.destinationId != null)
+//				return false;
+//		} else if (!destinationId.equals(other.destinationId))
+//			return false;
 		if (flightInfoId == null) {
 			if (other.flightInfoId != null)
 				return false;
@@ -264,13 +264,13 @@ public class Flight {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Flight [flightInfoId=" + flightInfoId + ", flightNo=" + flightNo + ", airlineName=" + airlineName
-				+ ", departAirport=" + departAirport + ", departDate=" + departDate + ", arrivalAirport="
-				+ arrivalAirport + ", arrivalDate=" + arrivalDate + ", flightPrice=" + flightPrice + ", customer="
-				+ customer + ", customerId=" + customerId + ", destination=" + destination + ", destinationId="
-				+ destinationId + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Flight [flightInfoId=" + flightInfoId + ", flightNo=" + flightNo + ", airlineName=" + airlineName
+//				+ ", departAirport=" + departAirport + ", departDate=" + departDate + ", arrivalAirport="
+//				+ arrivalAirport + ", arrivalDate=" + arrivalDate + ", flightPrice=" + flightPrice + ", customer="
+//				+ customer + ", customerId=" + customerId + ", destination=" + destination + ", destinationId="
+//				+ destinationId + "]";
+//	}
 
 }

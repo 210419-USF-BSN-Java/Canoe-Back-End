@@ -1,5 +1,7 @@
 package com.canoetravel.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.canoetravel.entities.Destination;
 import com.canoetravel.entities.Flight;
 import com.canoetravel.entities.User;
+import com.canoetravel.repository.DestinationRepository;
 import com.canoetravel.services.FlightService;
 
 @RestController
@@ -23,10 +27,12 @@ import com.canoetravel.services.FlightService;
 public class FlightController {
 
 	private FlightService flightService;
+	private DestinationRepository destRepo;
 
 	@Autowired
-	public FlightController(FlightService flightService) {
+	public FlightController(FlightService flightService, DestinationRepository destRepo) {
 		this.flightService = flightService;
+		this.destRepo = destRepo;
 	}
 
 	@PostMapping(value = "/saveFlight")
@@ -43,6 +49,9 @@ public class FlightController {
 				flight.setDestinationId(dest.getDestinationId());
 				Flight saveFlight = flightService.saveFlight(flight);
 				if (saveFlight != null) {
+					dest.setFlightId(saveFlight.getFlightInfoId());
+					destRepo.save(dest);
+					session.setAttribute("destination", dest);
 					return new ResponseEntity<String>("flight saved successfully", HttpStatus.OK);
 				} else {
 					return new ResponseEntity<String>("can not save flight", HttpStatus.BAD_REQUEST);
@@ -55,6 +64,12 @@ public class FlightController {
 
 		}
 
+	}
+	
+	@GetMapping(value = "/allFlights")
+	public ResponseEntity<List<Flight>> getAllUsers() {
+		List<Flight> allFlight = flightService.getAllDestination();
+		return new ResponseEntity<List<Flight>>(allFlight, HttpStatus.OK);
 	}
 
 }

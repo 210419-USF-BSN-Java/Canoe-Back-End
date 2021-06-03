@@ -16,7 +16,9 @@ public class LocalFoodId implements Serializable {
 
 	@Column(name = "local_food_id")
 	private Integer localFoodId;
-	@ManyToOne(fetch = FetchType.EAGER)
+	
+	/* @ManyToOne(fetch = FetchType.EAGER)
+	
 	@JoinColumns({
 			@JoinColumn(name = "travel_destination_id", referencedColumnName = "destination_id", updatable = true, insertable = true),
 			@JoinColumn(name = "user_id", referencedColumnName = "dest_to_user_id", updatable = true, insertable = true) })
@@ -83,5 +85,5 @@ public class LocalFoodId implements Serializable {
 	public String toString() {
 		return "LocalFoodId [localFoodId=" + localFoodId + ", travelDestinationId=" + travelDestinationId + "]";
 	}
-
+*/
 }

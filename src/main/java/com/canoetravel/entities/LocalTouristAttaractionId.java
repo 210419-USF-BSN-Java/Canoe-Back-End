@@ -19,6 +19,7 @@ public class LocalTouristAttaractionId implements Serializable {
 	@Column(name = "local_tourist_attraction_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer localTouristAttractionId;
+	/*
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({
 			@JoinColumn(name = "travel_destination_id", referencedColumnName = "destination_id", updatable = true, insertable = true),
@@ -87,5 +88,5 @@ public class LocalTouristAttaractionId implements Serializable {
 		return "LocalTouristAttaractionId [localTouristAttractionId=" + localTouristAttractionId
 				+ ", travelDestinationId=" + travelDestinationId + "]";
 	}
-
+*/
 }

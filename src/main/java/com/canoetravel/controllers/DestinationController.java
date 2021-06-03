@@ -37,8 +37,10 @@ public class DestinationController {
 		HttpSession session = req.getSession(false);
 		if (session != null) {
 			User authUser = (User) session.getAttribute("authUser");
+			System.out.println("=====================================");
 			if (authUser != null) {
 				dest = destService.saveDestination(dest, authUser);
+				System.out.println("=========================="+dest);
 				if (dest != null) {
 					session.setAttribute("destination", dest);
 					return new ResponseEntity<String>("destination saved", HttpStatus.ACCEPTED);
