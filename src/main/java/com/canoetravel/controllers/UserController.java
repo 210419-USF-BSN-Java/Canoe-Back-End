@@ -66,7 +66,7 @@ public class UserController {
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
-	@GetMapping
+	@GetMapping(value = "/getAllLogin")
 	public ResponseEntity<User> checkLogin(HttpSession session) {
 		User authUser = (User) session.getAttribute("authUser");
 		if (authUser == null) {
