@@ -90,19 +90,16 @@ public class UserController {
 		if (session != null) {
 			User sessionUser = (User) session.getAttribute("authUser");
 
-			if (!user.getUserFname().equalsIgnoreCase(null) && !user.getUserFname().isEmpty()
-					&& !user.getUserFname().isBlank()) {
+			if (!user.getUserFname().equalsIgnoreCase(null) && !user.getUserFname().isEmpty()) {
 				sessionUser.setUserFname(user.getUserFname());
 			}
-			if (!user.getUserLname().equalsIgnoreCase(null) && !user.getUserLname().isEmpty()
-					&& !user.getUserLname().isBlank()) {
+			if (!user.getUserLname().equalsIgnoreCase(null) && !user.getUserLname().isEmpty()) {
 				sessionUser.setUserLname(user.getUserLname());
 			}
-			if (!user.getUserEmail().equalsIgnoreCase(null) && !user.getUserEmail().isEmpty()
-					&& !user.getUserLname().isEmpty()) {
+			if (!user.getUserEmail().equalsIgnoreCase(null) && !user.getUserEmail().isEmpty()) {
 				sessionUser.setUserEmail(user.getUserEmail());
 			}
-			
+
 			User updatedUser = userService.updateUserInfo(sessionUser);
 			if (!updatedUser.equals(null)) {
 				session.setAttribute("authUser", updatedUser);
