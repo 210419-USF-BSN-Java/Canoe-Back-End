@@ -27,14 +27,22 @@ public class UserService implements IUserService {
 		this.uRoleRepo = uRoleRepo;
 	}
 
-	public boolean registerUser(User user) {
-		UserRole userRole = uRoleRepo.findByUserRole("user");
-		user.setUserRoleId(userRole);
-		user.setActive(true);
-		User isSaved = userRepo.save(user);
-		if (isSaved != null) {
+	public UserService(UserRepository userRepo) {
+		this.userRepo = userRepo;
+	}
 
-			return true;
+	public boolean registerUser(User user) {
+		if (user != null) {
+			UserRole userRole = uRoleRepo.findByUserRole("user");
+			user.setUserRoleId(userRole);
+			user.setActive(true);
+			User isSaved = userRepo.save(user);
+			if (isSaved != null) {
+
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
