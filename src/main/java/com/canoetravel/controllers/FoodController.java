@@ -51,7 +51,6 @@ public class FoodController {
 			}
 		} else {
 			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
-
 		}
 
 	}

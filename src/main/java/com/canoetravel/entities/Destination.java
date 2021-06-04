@@ -262,5 +262,4 @@ public class Destination implements Serializable {
 				+ ", flightId=" + flightId + ", flight=" + flight + ", lodgingId=" + lodgingId + ", lodging=" + lodging
 				+ ", localFood=" + localFood + ", localTouristAttraction=" + localTouristAttraction + "]";
 	}
-
 }
