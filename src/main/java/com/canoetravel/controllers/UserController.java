@@ -75,8 +75,6 @@ public class UserController {
 		return new ResponseEntity<User>(authUser, HttpStatus.OK);
 	}
 
-	// TODO below code is Just for testing purpose need to delete or secured for
-	// employee/admin user only
 	@GetMapping(value = "/allusers")
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> allUsers = userService.getAllUsers();
