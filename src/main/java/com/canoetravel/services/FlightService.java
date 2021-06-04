@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.canoetravel.entities.Flight;
 import com.canoetravel.repository.FlightRepository;
-import com.canoetravel.service.interfaces.IFlightService;
 
 @Service
-public class FlightService implements IFlightService {
+public class FlightService  {
 
 	private FlightRepository flightRepo;
 

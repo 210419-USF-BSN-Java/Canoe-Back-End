@@ -9,10 +9,9 @@ import com.canoetravel.entities.User;
 import com.canoetravel.entities.UserRole;
 import com.canoetravel.repository.UserRepository;
 import com.canoetravel.repository.UserRoleRepository;
-import com.canoetravel.service.interfaces.IUserService;
 
 @Service
-public class UserService implements IUserService {
+public class UserService {
 
 	private UserRepository userRepo;
 	private UserRoleRepository uRoleRepo;

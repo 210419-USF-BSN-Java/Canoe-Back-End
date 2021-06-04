@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.canoetravel.entities.Lodging;
 import com.canoetravel.repository.LodgingRepository;
-import com.canoetravel.service.interfaces.ILodgingService;
 
 @Service
-public class LodgingService implements ILodgingService {
+public class LodgingService{
 
 	private LodgingRepository lodgingRepo;
 

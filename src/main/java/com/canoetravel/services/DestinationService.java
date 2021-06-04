@@ -8,10 +8,9 @@ import org.springframework.stereotype.Service;
 import com.canoetravel.entities.Destination;
 import com.canoetravel.entities.User;
 import com.canoetravel.repository.DestinationRepository;
-import com.canoetravel.service.interfaces.IDestinationService;
 
 @Service
-public class DestinationService implements IDestinationService {
+public class DestinationService  {
 
 	private DestinationRepository destRepo;
 
