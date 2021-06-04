@@ -22,7 +22,7 @@ import com.canoetravel.services.FoodService;
 
 @RestController
 @RequestMapping(value = "/user")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://canoe-front.s3-website.us-east-2.amazonaws.com/")
 public class FoodController {
 
 	private FoodService foodService;

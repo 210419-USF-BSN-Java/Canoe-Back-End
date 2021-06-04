@@ -22,7 +22,7 @@ import com.canoetravel.services.DestinationService;
 
 @RestController
 @RequestMapping(value = "/user")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://canoe-front.s3-website.us-east-2.amazonaws.com/")
 public class DestinationController {
 
 	private DestinationService destService;
