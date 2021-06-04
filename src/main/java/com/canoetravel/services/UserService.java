@@ -40,7 +40,6 @@ public class UserService implements IUserService {
 		}
 	}
 
-
 	public List<User> getAllUsers() {
 		return userRepo.findAll();
 
@@ -61,5 +60,5 @@ public class UserService implements IUserService {
 	public User updateUserInfo(User user) {
 		return userRepo.save(user);
 	}
-	
+
 }
