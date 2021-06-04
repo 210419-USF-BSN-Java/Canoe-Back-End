@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.canoetravel.entities.Destination;
 import com.canoetravel.entities.LocalFood;
-import com.canoetravel.entities.Lodging;
 import com.canoetravel.entities.User;
 import com.canoetravel.services.FoodService;
 
@@ -22,14 +21,14 @@ import com.canoetravel.services.FoodService;
 @RequestMapping(value = "/user")
 @CrossOrigin(origins = "http://localhost:4200")
 public class FoodController {
-	
+
 	private FoodService foodService;
-	
+
 	@Autowired
 	public FoodController(FoodService foodService) {
 		this.foodService = foodService;
 	}
-	
+
 	@PostMapping(value = "/saveLocalFood")
 	public ResponseEntity<String> saveLodging(@RequestBody LocalFood localFood, HttpServletRequest req) {
 
@@ -43,9 +42,6 @@ public class FoodController {
 				localFood.setDestinationId(dest.getDestinationId());
 				LocalFood saveLocalFood = foodService.saveLocalFood(localFood);
 				if (saveLocalFood != null) {
-		
-					//destRepo.save(dest);
-					//session.setAttribute("destination", dest);
 					return new ResponseEntity<String>("local food event saved successfully", HttpStatus.OK);
 				} else {
 					return new ResponseEntity<String>("can not save local food", HttpStatus.BAD_REQUEST);
