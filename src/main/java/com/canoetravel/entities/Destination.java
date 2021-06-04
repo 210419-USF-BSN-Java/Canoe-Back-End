@@ -3,7 +3,6 @@ package com.canoetravel.entities;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,7 +21,7 @@ public class Destination implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "destination_id", columnDefinition = "serial")
 	private Integer destinationId;
 
@@ -52,15 +51,16 @@ public class Destination implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "lodging_id", updatable = false, insertable = false)
 	private Lodging lodging;
-	
-	@OneToMany(mappedBy = "destinatioId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<LocalFood> localFood;
+
+	@OneToMany(mappedBy = "destinationId", fetch = FetchType.LAZY)
+	private List<LocalFood> localFood;
 
 	public Destination() {
 	}
 
 	public Destination(Integer destinationId, String destinationCountry, String destinationCity, Integer customerId,
-			User customer, Integer flightId, Flight flight, Integer lodgingId, Lodging lodging) {
+			User customer, Integer flightId, Flight flight, Integer lodgingId, Lodging lodging,
+			List<LocalFood> localFood) {
 		super();
 		this.destinationId = destinationId;
 		this.destinationCountry = destinationCountry;
@@ -71,6 +71,7 @@ public class Destination implements Serializable {
 		this.flight = flight;
 		this.lodgingId = lodgingId;
 		this.lodging = lodging;
+		this.localFood = localFood;
 	}
 
 	public Integer getDestinationId() {
@@ -106,7 +107,6 @@ public class Destination implements Serializable {
 	}
 
 	public User getCustomer() {
-		
 		return customer;
 	}
 
@@ -146,6 +146,18 @@ public class Destination implements Serializable {
 		this.lodging = lodging;
 	}
 
+	public List<LocalFood> getLocalFood() {
+		return localFood;
+	}
+
+	public void setLocalFood(List<LocalFood> localFood) {
+		this.localFood = localFood;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -157,6 +169,7 @@ public class Destination implements Serializable {
 		result = prime * result + ((destinationId == null) ? 0 : destinationId.hashCode());
 		result = prime * result + ((flight == null) ? 0 : flight.hashCode());
 		result = prime * result + ((flightId == null) ? 0 : flightId.hashCode());
+		result = prime * result + ((localFood == null) ? 0 : localFood.hashCode());
 		result = prime * result + ((lodging == null) ? 0 : lodging.hashCode());
 		result = prime * result + ((lodgingId == null) ? 0 : lodgingId.hashCode());
 		return result;
@@ -206,6 +219,11 @@ public class Destination implements Serializable {
 				return false;
 		} else if (!flightId.equals(other.flightId))
 			return false;
+		if (localFood == null) {
+			if (other.localFood != null)
+				return false;
+		} else if (!localFood.equals(other.localFood))
+			return false;
 		if (lodging == null) {
 			if (other.lodging != null)
 				return false;
@@ -224,7 +242,7 @@ public class Destination implements Serializable {
 		return "Destination [destinationId=" + destinationId + ", destinationCountry=" + destinationCountry
 				+ ", destinationCity=" + destinationCity + ", customerId=" + customerId + ", customer=" + customer
 				+ ", flightId=" + flightId + ", flight=" + flight + ", lodgingId=" + lodgingId + ", lodging=" + lodging
-				+ "]";
+				+ ", localFood=" + localFood + "]";
 	}
 
 }

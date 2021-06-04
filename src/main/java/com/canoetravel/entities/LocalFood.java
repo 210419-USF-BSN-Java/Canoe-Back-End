@@ -21,7 +21,7 @@ public class LocalFood implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer localFood;
+	private Integer localFoodId;
 
 	@Column(name = "local_food_name")
 	private String locaFoodName;
@@ -38,31 +38,26 @@ public class LocalFood implements Serializable {
 	@Column(name = "travel_destination_id")
 	private Integer destinationId;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "destination_id", updatable = false, insertable = false)
-	private Destination destinatioId;
-
 	public LocalFood() {
 	}
 
-	public LocalFood(Integer localFood, String locaFoodName, String restaurantName, Date bookedDate, Integer customerId,
-			Integer destinationId, Destination destinatioId) {
+	public LocalFood(Integer localFoodId, String locaFoodName, String restaurantName, Date bookedDate,
+			Integer customerId, Integer destinationId) {
 		super();
-		this.localFood = localFood;
+		this.localFoodId = localFoodId;
 		this.locaFoodName = locaFoodName;
 		this.restaurantName = restaurantName;
 		this.bookedDate = bookedDate;
 		this.customerId = customerId;
 		this.destinationId = destinationId;
-		this.destinatioId = destinatioId;
 	}
 
-	public Integer getLocalFood() {
-		return localFood;
+	public Integer getLocalFoodId() {
+		return localFoodId;
 	}
 
-	public void setLocalFood(Integer localFood) {
-		this.localFood = localFood;
+	public void setLocalFoodId(Integer localFoodId) {
+		this.localFoodId = localFoodId;
 	}
 
 	public String getLocaFoodName() {
@@ -105,14 +100,6 @@ public class LocalFood implements Serializable {
 		this.destinationId = destinationId;
 	}
 
-	public Destination getDestinatioId() {
-		return destinatioId;
-	}
-
-	public void setDestinatioId(Destination destinatioId) {
-		this.destinatioId = destinatioId;
-	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -123,10 +110,9 @@ public class LocalFood implements Serializable {
 		int result = 1;
 		result = prime * result + ((bookedDate == null) ? 0 : bookedDate.hashCode());
 		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
-		result = prime * result + ((destinatioId == null) ? 0 : destinatioId.hashCode());
 		result = prime * result + ((destinationId == null) ? 0 : destinationId.hashCode());
 		result = prime * result + ((locaFoodName == null) ? 0 : locaFoodName.hashCode());
-		result = prime * result + ((localFood == null) ? 0 : localFood.hashCode());
+		result = prime * result + ((localFoodId == null) ? 0 : localFoodId.hashCode());
 		result = prime * result + ((restaurantName == null) ? 0 : restaurantName.hashCode());
 		return result;
 	}
@@ -150,11 +136,6 @@ public class LocalFood implements Serializable {
 				return false;
 		} else if (!customerId.equals(other.customerId))
 			return false;
-		if (destinatioId == null) {
-			if (other.destinatioId != null)
-				return false;
-		} else if (!destinatioId.equals(other.destinatioId))
-			return false;
 		if (destinationId == null) {
 			if (other.destinationId != null)
 				return false;
@@ -165,10 +146,10 @@ public class LocalFood implements Serializable {
 				return false;
 		} else if (!locaFoodName.equals(other.locaFoodName))
 			return false;
-		if (localFood == null) {
-			if (other.localFood != null)
+		if (localFoodId == null) {
+			if (other.localFoodId != null)
 				return false;
-		} else if (!localFood.equals(other.localFood))
+		} else if (!localFoodId.equals(other.localFoodId))
 			return false;
 		if (restaurantName == null) {
 			if (other.restaurantName != null)
@@ -180,9 +161,9 @@ public class LocalFood implements Serializable {
 
 	@Override
 	public String toString() {
-		return "LocalFood [localFood=" + localFood + ", locaFoodName=" + locaFoodName + ", restaurantName="
+		return "LocalFood [localFoodId=" + localFoodId + ", locaFoodName=" + locaFoodName + ", restaurantName="
 				+ restaurantName + ", bookedDate=" + bookedDate + ", customerId=" + customerId + ", destinationId="
-				+ destinationId + ", destinatioId=" + destinatioId + "]";
+				+ destinationId + "]";
 	}
 
 }
