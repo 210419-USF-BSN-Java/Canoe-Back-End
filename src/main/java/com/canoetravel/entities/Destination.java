@@ -55,12 +55,15 @@ public class Destination implements Serializable {
 	@OneToMany(mappedBy = "destinationId", fetch = FetchType.LAZY)
 	private List<LocalFood> localFood;
 
+	@OneToMany(mappedBy = "destinationId", fetch = FetchType.LAZY)
+	private List<LocalTouristAttraction> localTouristAttraction;
+
 	public Destination() {
 	}
 
 	public Destination(Integer destinationId, String destinationCountry, String destinationCity, Integer customerId,
 			User customer, Integer flightId, Flight flight, Integer lodgingId, Lodging lodging,
-			List<LocalFood> localFood) {
+			List<LocalFood> localFood, List<LocalTouristAttraction> localTouristAttraction) {
 		super();
 		this.destinationId = destinationId;
 		this.destinationCountry = destinationCountry;
@@ -72,6 +75,7 @@ public class Destination implements Serializable {
 		this.lodgingId = lodgingId;
 		this.lodging = lodging;
 		this.localFood = localFood;
+		this.localTouristAttraction = localTouristAttraction;
 	}
 
 	public Integer getDestinationId() {
@@ -154,6 +158,14 @@ public class Destination implements Serializable {
 		this.localFood = localFood;
 	}
 
+	public List<LocalTouristAttraction> getLocalTouristAttraction() {
+		return localTouristAttraction;
+	}
+
+	public void setLocalTouristAttraction(List<LocalTouristAttraction> localTouristAttraction) {
+		this.localTouristAttraction = localTouristAttraction;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -170,6 +182,7 @@ public class Destination implements Serializable {
 		result = prime * result + ((flight == null) ? 0 : flight.hashCode());
 		result = prime * result + ((flightId == null) ? 0 : flightId.hashCode());
 		result = prime * result + ((localFood == null) ? 0 : localFood.hashCode());
+		result = prime * result + ((localTouristAttraction == null) ? 0 : localTouristAttraction.hashCode());
 		result = prime * result + ((lodging == null) ? 0 : lodging.hashCode());
 		result = prime * result + ((lodgingId == null) ? 0 : lodgingId.hashCode());
 		return result;
@@ -224,6 +237,11 @@ public class Destination implements Serializable {
 				return false;
 		} else if (!localFood.equals(other.localFood))
 			return false;
+		if (localTouristAttraction == null) {
+			if (other.localTouristAttraction != null)
+				return false;
+		} else if (!localTouristAttraction.equals(other.localTouristAttraction))
+			return false;
 		if (lodging == null) {
 			if (other.lodging != null)
 				return false;
@@ -242,7 +260,7 @@ public class Destination implements Serializable {
 		return "Destination [destinationId=" + destinationId + ", destinationCountry=" + destinationCountry
 				+ ", destinationCity=" + destinationCity + ", customerId=" + customerId + ", customer=" + customer
 				+ ", flightId=" + flightId + ", flight=" + flight + ", lodgingId=" + lodgingId + ", lodging=" + lodging
-				+ ", localFood=" + localFood + "]";
+				+ ", localFood=" + localFood + ", localTouristAttraction=" + localTouristAttraction + "]";
 	}
 
 }
