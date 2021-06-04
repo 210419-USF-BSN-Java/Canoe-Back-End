@@ -1,5 +1,9 @@
 package com.canoetravel.entities;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,11 +12,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "travel_destination")
-public class Destination {
+public class Destination implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +52,9 @@ public class Destination {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "lodging_id", updatable = false, insertable = false)
 	private Lodging lodging;
+	
+	@OneToMany(mappedBy = "destinatioId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<LocalFood> localFood;
 
 	public Destination() {
 	}
