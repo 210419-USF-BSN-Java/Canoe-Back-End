@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.canoetravel.entities.Destination;
 import com.canoetravel.entities.LocalTouristAttraction;
 import com.canoetravel.repository.LocalTouristAttractionRepository;
 
