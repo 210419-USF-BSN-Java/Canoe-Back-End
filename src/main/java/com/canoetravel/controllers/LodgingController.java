@@ -59,7 +59,7 @@ public class LodgingController {
 				return new ResponseEntity<String>("please select the destination first", HttpStatus.BAD_REQUEST);
 			}
 		} else {
-			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<String>("Please Login or SignUp for Account", HttpStatus.UNAUTHORIZED);
 
 		}
 
