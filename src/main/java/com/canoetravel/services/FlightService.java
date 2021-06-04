@@ -26,7 +26,7 @@ public class FlightService  {
 		return flightRepo.save(flight);
 	}
 
-	public List<Flight> getAllDestination() {
+	public List<Flight> getAllFlight() {
 		return flightRepo.findAll();
 	}
 

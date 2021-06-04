@@ -9,7 +9,7 @@ import com.canoetravel.entities.Lodging;
 import com.canoetravel.repository.LodgingRepository;
 
 @Service
-public class LodgingService{
+public class LodgingService {
 
 	private LodgingRepository lodgingRepo;
 
@@ -21,16 +21,13 @@ public class LodgingService{
 	public LodgingService(LodgingRepository lodgingRepo) {
 		this.lodgingRepo = lodgingRepo;
 	}
-	
-	public Lodging saveFlight(Lodging lodging) {
+
+	public Lodging saveLodging(Lodging lodging) {
 		return lodgingRepo.save(lodging);
 	}
 
 	public List<Lodging> getAllLodgingInfo() {
-		// TODO Auto-generated method stub
-		return null;
+		return lodgingRepo.findAll();
 	}
-
-	
 
 }

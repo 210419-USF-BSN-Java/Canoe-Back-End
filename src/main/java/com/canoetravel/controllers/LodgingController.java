@@ -46,7 +46,7 @@ public class LodgingController {
 			if (dest != null) {
 				lodging.setCustomerId(authUser.getUserId());
 				lodging.setDestinationId(dest.getDestinationId());
-				Lodging saveLodging = lodgeService.saveFlight(lodging);
+				Lodging saveLodging = lodgeService.saveLodging(lodging);
 				if (saveLodging != null) {
 					dest.setLodgingId(saveLodging.getLodgingId());
 					destRepo.save(dest);
