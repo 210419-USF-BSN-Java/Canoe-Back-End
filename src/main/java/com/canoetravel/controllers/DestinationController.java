@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,10 +38,8 @@ public class DestinationController {
 		HttpSession session = req.getSession(false);
 		if (session != null) {
 			User authUser = (User) session.getAttribute("authUser");
-			System.out.println("=====================================");
 			if (authUser != null) {
 				dest = destService.saveDestination(dest, authUser);
-				System.out.println("=========================="+dest);
 				if (dest != null) {
 					session.setAttribute("destination", dest);
 					return new ResponseEntity<String>("destination saved", HttpStatus.ACCEPTED);
@@ -65,7 +64,7 @@ public class DestinationController {
 	}
 	
 	
-	@PostMapping(value = "/updateDestination")
+	@PutMapping(value = "/updateDestination")
 	public ResponseEntity<String> updateDestination(@RequestBody Destination dest, HttpServletRequest req) {
 
 		HttpSession session = req.getSession(false);
