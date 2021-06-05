@@ -17,8 +17,11 @@ public class Lodging {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer lodgingId;
 
-	@Column(name = "hotelName")
+	@Column(name = "hotel_name")
 	private String hotelName;
+
+	@Column(name = "hotel_address")
+	private String hotel_address;
 
 	@Column(name = "check_in_date")
 	private Date checkInDate;
@@ -29,6 +32,9 @@ public class Lodging {
 	@Column(name = "per_night_price")
 	private double pricePerNight;
 
+	@Column(name = "hotel_rating")
+	private String hotelRating;
+
 	@Column(name = "user_id")
 	private Integer customerId;
 
@@ -38,14 +44,16 @@ public class Lodging {
 	public Lodging() {
 	}
 
-	public Lodging(Integer lodgingId, String hotelName, Date checkInDate, Date checkOutDate, double pricePerNight,
-			Integer customerId, Integer destinationId) {
+	public Lodging(Integer lodgingId, String hotelName, String hotel_address, Date checkInDate, Date checkOutDate,
+			double pricePerNight, String hotelRating, Integer customerId, Integer destinationId) {
 		super();
 		this.lodgingId = lodgingId;
 		this.hotelName = hotelName;
+		this.hotel_address = hotel_address;
 		this.checkInDate = checkInDate;
 		this.checkOutDate = checkOutDate;
 		this.pricePerNight = pricePerNight;
+		this.hotelRating = hotelRating;
 		this.customerId = customerId;
 		this.destinationId = destinationId;
 	}
@@ -58,12 +66,20 @@ public class Lodging {
 		this.lodgingId = lodgingId;
 	}
 
-	public String gethotelName() {
+	public String getHotelName() {
 		return hotelName;
 	}
 
 	public void setHotelName(String hotelName) {
 		this.hotelName = hotelName;
+	}
+
+	public String getHotel_address() {
+		return hotel_address;
+	}
+
+	public void setHotel_address(String hotel_address) {
+		this.hotel_address = hotel_address;
 	}
 
 	public Date getCheckInDate() {
@@ -88,6 +104,14 @@ public class Lodging {
 
 	public void setPricePerNight(double pricePerNight) {
 		this.pricePerNight = pricePerNight;
+	}
+
+	public String getHotelRating() {
+		return hotelRating;
+	}
+
+	public void setHotelRating(String hotelRating) {
+		this.hotelRating = hotelRating;
 	}
 
 	public Integer getCustomerId() {
@@ -115,6 +139,8 @@ public class Lodging {
 		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
 		result = prime * result + ((destinationId == null) ? 0 : destinationId.hashCode());
 		result = prime * result + ((hotelName == null) ? 0 : hotelName.hashCode());
+		result = prime * result + ((hotelRating == null) ? 0 : hotelRating.hashCode());
+		result = prime * result + ((hotel_address == null) ? 0 : hotel_address.hashCode());
 		result = prime * result + ((lodgingId == null) ? 0 : lodgingId.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(pricePerNight);
@@ -156,6 +182,16 @@ public class Lodging {
 				return false;
 		} else if (!hotelName.equals(other.hotelName))
 			return false;
+		if (hotelRating == null) {
+			if (other.hotelRating != null)
+				return false;
+		} else if (!hotelRating.equals(other.hotelRating))
+			return false;
+		if (hotel_address == null) {
+			if (other.hotel_address != null)
+				return false;
+		} else if (!hotel_address.equals(other.hotel_address))
+			return false;
 		if (lodgingId == null) {
 			if (other.lodgingId != null)
 				return false;
@@ -168,9 +204,10 @@ public class Lodging {
 
 	@Override
 	public String toString() {
-		return "Lodging [lodgingId=" + lodgingId + ", hotelName=" + hotelName + ", checkInDate=" + checkInDate
-				+ ", checkOutDate=" + checkOutDate + ", pernightPrice=" + pricePerNight + ", customerId=" + customerId
-				+ ", destinationId=" + destinationId + "]";
+		return "Lodging [lodgingId=" + lodgingId + ", hotelName=" + hotelName + ", hotel_address=" + hotel_address
+				+ ", checkInDate=" + checkInDate + ", checkOutDate=" + checkOutDate + ", pricePerNight=" + pricePerNight
+				+ ", hotelRating=" + hotelRating + ", customerId=" + customerId + ", destinationId=" + destinationId
+				+ "]";
 	}
 
 }
