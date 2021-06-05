@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,15 +67,6 @@ public class UserController {
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
-	@GetMapping(value = "/getAllLogin")
-	public ResponseEntity<User> checkLogin(HttpSession session) {
-		User authUser = (User) session.getAttribute("authUser");
-		if (authUser == null) {
-			return new ResponseEntity<User>(HttpStatus.FORBIDDEN);
-		}
-		return new ResponseEntity<User>(authUser, HttpStatus.OK);
-	}
-
 	@GetMapping(value = "/allusers")
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> allUsers = userService.getAllUsers();
@@ -107,6 +99,17 @@ public class UserController {
 			}
 		} else {
 			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
+
+		}
+	}
+	
+	@GetMapping(value = "/getUser/{email}", produces = "application/json")
+    public ResponseEntity<User> getUser(@PathVariable String email) {
+		User user = userService .findByEmail(email);
+		if (user != null) {
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(null, HttpStatus.OK);
 
 		}
 	}

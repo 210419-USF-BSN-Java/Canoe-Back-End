@@ -21,7 +21,7 @@ public class Destination implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "destination_id", columnDefinition = "serial")
 	private Integer destinationId;
 

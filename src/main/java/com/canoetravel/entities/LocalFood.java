@@ -5,9 +5,12 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,7 +20,7 @@ public class LocalFood implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer localFoodId;
 
 	@Column(name = "local_food_name")
@@ -34,6 +37,10 @@ public class LocalFood implements Serializable {
 
 	@Column(name = "travel_destination_id")
 	private Integer destinationId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "travel_destination_id", updatable = false, insertable = false)
+	private Destination destination;
 
 	public LocalFood() {
 	}

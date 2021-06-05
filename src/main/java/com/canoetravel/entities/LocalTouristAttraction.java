@@ -4,9 +4,12 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,7 +17,7 @@ import javax.persistence.Table;
 public class LocalTouristAttraction {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer localTouristAttaraction;
 
 	@Column(name = "local_tourist_attraction_place")
@@ -28,6 +31,10 @@ public class LocalTouristAttraction {
 
 	@Column(name = "travel_destination_id")
 	private Integer destinationId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "travel_destination_id", updatable = false, insertable = false)
+	private Destination destination;
 
 	public LocalTouristAttraction() {
 	}

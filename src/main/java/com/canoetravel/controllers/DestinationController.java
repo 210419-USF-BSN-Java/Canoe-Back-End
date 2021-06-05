@@ -55,8 +55,6 @@ public class DestinationController {
 		}
 	}
 
-	// TODO below code is Just for testing purposes, need to delete or secured for
-	// employee/admin user only
 	@GetMapping(value = "/allDestination")
 	public ResponseEntity<List<Destination>> getAllUsers() {
 		List<Destination> alldestination = destService.getAllDestination();
