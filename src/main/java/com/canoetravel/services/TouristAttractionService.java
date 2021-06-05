@@ -26,4 +26,8 @@ public class TouristAttractionService {
 		return touristAttractionRepo.findAll();
 	}
 
+	public LocalTouristAttraction updateLocalTouristAttraction(LocalTouristAttraction localTouristAttraction) {
+		return touristAttractionRepo.save(localTouristAttraction);
+	}
+
 }
