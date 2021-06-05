@@ -30,4 +30,8 @@ public class FoodService {
 		return localFoodRepo.findAll();
 	}
 
+	public LocalFood updateLocalFood(LocalFood localFood) {
+		return localFoodRepo.save(localFood);
+	}
+
 }
