@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,7 @@ import com.canoetravel.services.FlightService;
 @CrossOrigin(origins = "http://canoe-front.s3-website.us-east-2.amazonaws.com/")
 public class FlightController {
 
+	private static Logger log = LogManager.getLogger(FlightController.class);
 	private FlightService flightService;
 	private DestinationRepository destRepo;
 
@@ -53,12 +56,15 @@ public class FlightController {
 					session.setAttribute("destination", dest);
 					return new ResponseEntity<String>("flight saved successfully", HttpStatus.OK);
 				} else {
+					log.warn("Unable to save flight information");
 					return new ResponseEntity<String>("can not save flight", HttpStatus.BAD_REQUEST);
 				}
 			} else {
+				log.warn("Missing destination information");
 				return new ResponseEntity<String>("please select the destination first", HttpStatus.BAD_REQUEST);
 			}
 		} else {
+			log.warn("No session found");
 			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
 
 		}
@@ -67,6 +73,7 @@ public class FlightController {
 	
 	@GetMapping(value = "/allFlights")
 	public ResponseEntity<List<Flight>> getAllUsers() {
+		log.warn("Returning all flights information");
 		List<Flight> allFlight = flightService.getAllFlight();
 		return new ResponseEntity<List<Flight>>(allFlight, HttpStatus.OK);
 	}

@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,7 @@ import com.canoetravel.services.FoodService;
 @CrossOrigin(origins = "http://canoe-front.s3-website.us-east-2.amazonaws.com/")
 public class FoodController {
 
+	private static Logger log = LogManager.getLogger(FoodController.class);
 	private FoodService foodService;
 
 	@Autowired
@@ -47,12 +50,15 @@ public class FoodController {
 				if (saveLocalFood != null) {
 					return new ResponseEntity<String>("local food event saved successfully", HttpStatus.OK);
 				} else {
+					log.warn("Unable to save local food");
 					return new ResponseEntity<String>("can not save local food", HttpStatus.BAD_REQUEST);
 				}
 			} else {
+				log.warn("Unable to find destination information");
 				return new ResponseEntity<String>("please select the destination first", HttpStatus.BAD_REQUEST);
 			}
 		} else {
+			log.warn("No session found");
 			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
 		}
 
@@ -60,6 +66,7 @@ public class FoodController {
 	
 	@GetMapping(value = "/allLocalFood")
 	public ResponseEntity<List<LocalFood>> getAllUsers() {
+		log.warn("Returning all local food data");
 		List<LocalFood> allLocalFoods = foodService.getAllLocalFood();
 		return new ResponseEntity<List<LocalFood>>(allLocalFoods, HttpStatus.OK);
 	}

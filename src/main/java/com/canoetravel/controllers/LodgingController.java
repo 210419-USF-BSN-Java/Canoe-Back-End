@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,7 @@ import com.canoetravel.services.LodgingService;
 @CrossOrigin(origins = "http://canoe-front.s3-website.us-east-2.amazonaws.com/")
 public class LodgingController {
 
+	private static Logger log = LogManager.getLogger(LodgingController.class);
 	private LodgingService lodgeService;
 	private DestinationRepository destRepo;
 
@@ -53,12 +56,15 @@ public class LodgingController {
 					session.setAttribute("destination", dest);
 					return new ResponseEntity<String>("lodging saved successfully", HttpStatus.OK);
 				} else {
+					log.warn("Unable to save lodging data");
 					return new ResponseEntity<String>("can not save lodging", HttpStatus.BAD_REQUEST);
 				}
 			} else {
+				log.warn("Unable to find destination data");
 				return new ResponseEntity<String>("please select the destination first", HttpStatus.BAD_REQUEST);
 			}
 		} else {
+			log.warn("Unable to find user session");
 			return new ResponseEntity<String>("Please Login or SignUp for Account", HttpStatus.UNAUTHORIZED);
 
 		}
@@ -67,6 +73,7 @@ public class LodgingController {
 
 	@GetMapping(value = "/allLodging")
 	public ResponseEntity<List<Lodging>> getAllUsers() {
+		log.warn("Retrieved all lodging places");
 		List<Lodging> allLodging = lodgeService.getAllLodgingInfo();
 		return new ResponseEntity<List<Lodging>>(allLodging, HttpStatus.OK);
 	}

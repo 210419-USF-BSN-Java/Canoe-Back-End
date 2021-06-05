@@ -8,13 +8,11 @@
     <File name="File" fileName="target/debug.log">
     	<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
     </File>
-        <File name="LogFile" fileName="target/log.log">
-    	<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-    </File>
   </Appenders>
   <Loggers>
     <Root level="all">
-      <AppenderRef ref="LogFile" level="all"/>
+      <AppenderRef ref="Console" level="INFO"/>
+      <AppenderRef ref="File" level="WARN"/>
     </Root>
   </Loggers>
 </Configuration>

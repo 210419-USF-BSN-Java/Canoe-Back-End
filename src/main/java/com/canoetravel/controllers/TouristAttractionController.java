@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,7 @@ import com.canoetravel.services.TouristAttractionService;
 @RequestMapping(value = "/user")
 @CrossOrigin(origins = "http://localhost:4200")
 public class TouristAttractionController {
-	
+	private static Logger log = LogManager.getLogger(TouristAttractionController.class);
 	private TouristAttractionService ts;
 
 	@Autowired
@@ -47,19 +49,23 @@ public class TouristAttractionController {
 				if (LocalTAttraction != null) {
 					return new ResponseEntity<String>("local tourist attraction saved successfully", HttpStatus.OK);
 				} else {
+					log.warn("can not save tourist attraction");
 					return new ResponseEntity<String>("can not save tourist attraction", HttpStatus.BAD_REQUEST);
 				}
 			} else {
+				log.warn("No destination");
 				return new ResponseEntity<String>("please select the destination first", HttpStatus.BAD_REQUEST);
 			}
 		} else {
+			log.warn("No user session");
 			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
 		}
 
 	}
 	
 	@GetMapping(value = "/allTouristAttractions")
-	public ResponseEntity<List<LocalTouristAttraction>> getAllUsers() {
+	public ResponseEntity<List<LocalTouristAttraction>> getAllTouristAttractions() {
+		log.warn("Inside get all tourist attractions" );
 		List<LocalTouristAttraction> allAttractions = ts.getAllTouristAttractions();
 		return new ResponseEntity<List<LocalTouristAttraction>>(allAttractions, HttpStatus.OK);
 	}
