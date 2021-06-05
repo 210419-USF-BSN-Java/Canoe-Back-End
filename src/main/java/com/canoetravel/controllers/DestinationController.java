@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,8 @@ import com.canoetravel.services.DestinationService;
 @CrossOrigin(origins = "http://canoe-front.s3-website.us-east-2.amazonaws.com/")
 public class DestinationController {
 
+	private static Logger log = LogManager.getLogger(DestinationController.class);
+
 	private DestinationService destService;
 
 	@Autowired
@@ -44,12 +48,15 @@ public class DestinationController {
 					session.setAttribute("destination", dest);
 					return new ResponseEntity<String>("destination saved", HttpStatus.ACCEPTED);
 				} else {
+					log.warn("Unable to save destination");
 					return new ResponseEntity<String>("can not save destination - something went worng", HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 			} else {
+				log.warn("No user session");
 				return new ResponseEntity<String>("user not found - something went wrong", HttpStatus.BAD_REQUEST);
 			}
 		} else {
+			log.warn("No user session");
 			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
 
 		}
@@ -57,6 +64,7 @@ public class DestinationController {
 
 	@GetMapping(value = "/allDestination")
 	public ResponseEntity<List<Destination>> getAllUsers() {
+		log.warn("Retrieved all destination placesa");
 		List<Destination> alldestination = destService.getAllDestination();
 		return new ResponseEntity<List<Destination>>(alldestination, HttpStatus.OK);
 	}
@@ -75,12 +83,15 @@ public class DestinationController {
 					session.setAttribute("destination", dest);
 					return new ResponseEntity<String>("destination updated", HttpStatus.ACCEPTED);
 				} else {
+					log.warn("Unable to update destination");
 					return new ResponseEntity<String>("can not update destination - something went worng", HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 			} else {
+				log.warn("No user  found");
 				return new ResponseEntity<String>("user not found - something went wrong", HttpStatus.BAD_REQUEST);
 			}
 		} else {
+			log.warn("No user session");
 			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
 
 		}
