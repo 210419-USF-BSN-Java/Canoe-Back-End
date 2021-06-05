@@ -31,8 +31,8 @@ public class LodgingServiceTest {
 		
 		lodgingList = new ArrayList<>();
 		
-		lodging1 = new Lodging(null, "testhotle1", new Date(0), new Date(0), 100, 1, 1);
-		lodging2 = new Lodging(null, "testhotle2", new Date(0), new Date(0), 100, 1, 1);
+		lodging1 = new Lodging(null, "testhotle1", "testAddress1", new Date(0), new Date(0), 100, "rating", 1, 1);
+		lodging2 = new Lodging(null, "testhotle2", "testAddress1", new Date(0), new Date(0), 100, "rating", 1, 1);
 		lodgingList.add(lodging1);
 		lodgingList.add(lodging2);
 	}
