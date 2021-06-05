@@ -12,7 +12,6 @@
 	<groupId>com.canoetravel</groupId>
 	<artifactId>canoe-travel-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
 	<name>canoe-travel-app</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
