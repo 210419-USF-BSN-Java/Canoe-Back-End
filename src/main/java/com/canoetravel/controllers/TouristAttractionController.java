@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,7 +37,7 @@ public class TouristAttractionController {
 	}
 	
 	@PostMapping(value = "/saveTouristAttraction")
-	public ResponseEntity<String> saveLodging(@RequestBody LocalTouristAttraction tAttraction, HttpServletRequest req) {
+	public ResponseEntity<String> saveTouristAttraction(@RequestBody LocalTouristAttraction tAttraction, HttpServletRequest req) {
 
 		HttpSession session = req.getSession(false);
 		if (session != null) {
@@ -72,7 +73,7 @@ public class TouristAttractionController {
 	}
 	
 	@PutMapping(value = "/updateTouristAttraction")
-	public ResponseEntity<String> updateDestination(@RequestBody LocalTouristAttraction tAttraction, HttpServletRequest req) {
+	public ResponseEntity<String> updateTouristAttraction(@RequestBody LocalTouristAttraction tAttraction, HttpServletRequest req) {
 
 		HttpSession session = req.getSession(false);
 		if (session != null) {
@@ -102,7 +103,7 @@ public class TouristAttractionController {
 	}
 	
 	@GetMapping(value = "/getUserlocaltouristAttractions")
-	public ResponseEntity<List<LocalTouristAttraction>> findLocalFoodByUserAndDestination(HttpServletRequest req){
+	public ResponseEntity<List<LocalTouristAttraction>> findTouristAttractionByUserAndDestination(HttpServletRequest req){
 		List<LocalTouristAttraction> allLocalTA = null;
 		HttpSession session = req.getSession(false);
 		if (session != null) {
@@ -122,6 +123,32 @@ public class TouristAttractionController {
 		log.warn("No session found , bad request");
 			return new ResponseEntity<List<LocalTouristAttraction>>(allLocalTA, HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@DeleteMapping(value = "/deletelocaltouristAttractionsByUser")
+	public ResponseEntity<String> deleteTouristAttractionByUserAndDestination(@RequestBody LocalTouristAttraction tAttraction, HttpServletRequest req){
+		HttpSession session = req.getSession(false);
+		if (session != null) {
+			User authUser = (User) session.getAttribute("authUser");
+			if (authUser != null) {
+				int c =  ts.deleteTouristAttractionByLocalTouristAttraction(tAttraction.getLocalTouristAttaraction());
+//				log.warn(" the local tourist attraction id is " + tAttraction.getLocalTouristAttaraction());
+//				int c =  ts.deleteTouristAttractionByLocalTouristAttraction(1);
+				if (c > 0) {
+					return new ResponseEntity<String>("local tourist attraction deleted successfully", HttpStatus.OK);
+				} else {
+					log.warn("can not delete tourist attraction");
+					return new ResponseEntity<String>("can not delete tourist attraction", HttpStatus.BAD_REQUEST);
+				}
+			} else {
+				log.warn("No user found in session");
+				return new ResponseEntity<String>("No user found in session", HttpStatus.BAD_REQUEST);
+			}
+		} else {
+			log.warn("No session found");
+			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
+		}
+	
 	}
 
 }

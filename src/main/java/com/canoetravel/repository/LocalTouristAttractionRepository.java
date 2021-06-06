@@ -7,5 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.canoetravel.entities.LocalTouristAttraction;
 
 public interface LocalTouristAttractionRepository extends JpaRepository<LocalTouristAttraction, Integer> {
-	List<LocalTouristAttraction> findLocalTouristAttractionBycustomerIdAndDestinationId(int user_Id, int travel_destination_id);
+	
+	List<LocalTouristAttraction> findLocalTouristAttractionBycustomerIdAndDestinationId(Integer user_Id, Integer travel_destination_id);
+
+	int removeByLocalTouristAttaraction(Integer localTouristAttaraction);
 }
