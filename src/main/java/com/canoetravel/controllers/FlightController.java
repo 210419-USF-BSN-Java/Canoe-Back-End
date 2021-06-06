@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.canoetravel.entities.Destination;
 import com.canoetravel.entities.Flight;
+import com.canoetravel.entities.LocalTouristAttraction;
 import com.canoetravel.entities.User;
 import com.canoetravel.repository.DestinationRepository;
 import com.canoetravel.services.FlightService;
@@ -76,6 +77,30 @@ public class FlightController {
 		log.warn("Returning all flights information");
 		List<Flight> allFlight = flightService.getAllFlight();
 		return new ResponseEntity<List<Flight>>(allFlight, HttpStatus.OK);
+	}
+	
+	
+	@GetMapping(value = "/getuserflights")
+	public ResponseEntity<List<Flight>> findLocalFoodByUserAndDestination(HttpServletRequest req){
+		List<Flight> allFlights = null;
+		HttpSession session = req.getSession(false);
+		if (session != null) {
+			User authUser = (User) session.getAttribute("authUser");
+			Destination dest = (Destination) session.getAttribute("destination");
+			if (authUser != null) {
+				allFlights = flightService.getFlightsByUserIdAndDestinationId(authUser.getUserId(), dest.getDestinationId());
+//				 allFlights = flightService.getFlightsByUserIdAndDestinationId(1, 4); for testing
+				 return new ResponseEntity<List<Flight>>(allFlights, HttpStatus.OK);
+
+			} else {
+				log.warn("No user found in session, bad request");
+				return new ResponseEntity<List<Flight>>(allFlights, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		
+	} else {
+		log.warn("No session found , bad request");
+			return new ResponseEntity<List<Flight>>(allFlights, HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }
