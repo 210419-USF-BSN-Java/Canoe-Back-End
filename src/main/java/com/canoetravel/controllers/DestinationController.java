@@ -68,7 +68,7 @@ public class DestinationController {
 //		}
 	}
 	
-	@GetMapping(value = "/gettripplan/{userid}", produces = "application/json")
+	@GetMapping(value = "/gettripplan/{user_id}", produces = "application/json")
     public ResponseEntity<List<Destination>> getUser(@PathVariable int user_id) {
 		List<Destination> tripList = destService.getTripListByUserId(user_id);		
 		if (tripList != null) {
