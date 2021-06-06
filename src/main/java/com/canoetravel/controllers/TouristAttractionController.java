@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.canoetravel.entities.Destination;
+import com.canoetravel.entities.LocalFood;
 import com.canoetravel.entities.LocalTouristAttraction;
 import com.canoetravel.entities.User;
 import com.canoetravel.services.TouristAttractionService;
@@ -98,6 +99,29 @@ public class TouristAttractionController {
 			log.warn("No user session");
 			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
 
+		}
+	}
+	
+	@GetMapping(value = "/getUserlocaltouristAttractions")
+	public ResponseEntity<List<LocalTouristAttraction>> findLocalFoodByUserAndDestination(HttpServletRequest req){
+		List<LocalTouristAttraction> allLocalTA = null;
+		HttpSession session = req.getSession(false);
+		if (session != null) {
+			User authUser = (User) session.getAttribute("authUser");
+			Destination dest = (Destination) session.getAttribute("destination");
+			if (authUser != null) {
+				allLocalTA = ts.getLocalTouristAttractionByUserIdAndDestinationId(authUser.getUserId(), dest.getDestinationId());
+//				 allLocalTA = ts.getLocalTouristAttractionByUserIdAndDestinationId(1, 4); // for testing
+				 return new ResponseEntity<List<LocalTouristAttraction>>(allLocalTA, HttpStatus.OK);
+
+			} else {
+				log.warn("No user found in session, bad request");
+				return new ResponseEntity<List<LocalTouristAttraction>>(allLocalTA, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		
+	} else {
+		log.warn("No session found , bad request");
+			return new ResponseEntity<List<LocalTouristAttraction>>(allLocalTA, HttpStatus.BAD_REQUEST);
 		}
 	}
 

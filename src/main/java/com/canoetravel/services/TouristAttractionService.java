@@ -30,4 +30,13 @@ public class TouristAttractionService {
 		return touristAttractionRepo.save(localTouristAttraction);
 	}
 
+	public List<LocalTouristAttraction> getLocalTouristAttractionByUserIdAndDestinationId(Integer customerId,
+			Integer destinationId) {
+		
+		List<LocalTouristAttraction> list =  touristAttractionRepo.findLocalTouristAttractionBycustomerIdAndDestinationId(customerId, destinationId);
+		System.out.println(list.size());
+		return list;
+		
+	}
+
 }

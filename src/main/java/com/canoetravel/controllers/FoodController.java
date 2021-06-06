@@ -67,14 +67,14 @@ public class FoodController {
 	}
 	
 	@GetMapping(value = "/allLocalFood")
-	public ResponseEntity<List<LocalFood>> getAllUsers() {
+	public ResponseEntity<List<LocalFood>> getAllLocalFood() {
 		log.warn("Returning all local food data");
 		List<LocalFood> allLocalFoods = foodService.getAllLocalFood();
 		return new ResponseEntity<List<LocalFood>>(allLocalFoods, HttpStatus.OK);
 	}
 	
 	@PutMapping(value = "/updatelocalFood")
-	public ResponseEntity<String> updateDestination(@RequestBody LocalFood localFood, HttpServletRequest req) {
+	public ResponseEntity<String> updateLocalFood(@RequestBody LocalFood localFood, HttpServletRequest req) {
 
 		HttpSession session = req.getSession(false);
 		if (session != null) {
@@ -102,5 +102,26 @@ public class FoodController {
 
 		}
 	}
+	
+	@GetMapping(value = "/getUserlocalfood")
+	public ResponseEntity<List<LocalFood>> findLocalFoodByUserAndDestination(HttpServletRequest req){
+		List<LocalFood> allLocalFoods = null;
+		HttpSession session = req.getSession(false);
+		if (session != null) {
+			User authUser = (User) session.getAttribute("authUser");
+			Destination dest = (Destination) session.getAttribute("destination");
+			if (authUser != null) {
+				 allLocalFoods = foodService.getLocalFoodByUserIdAndDestinationId(authUser.getUserId(), dest.getDestinationId());
+			} else {
+				log.warn("No user found in session, bad request");
+				return new ResponseEntity<List<LocalFood>>(allLocalFoods, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		
+	} else {
+		log.warn("No session found , bad request");
+			return new ResponseEntity<List<LocalFood>>(allLocalFoods, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<List<LocalFood>>(allLocalFoods, HttpStatus.OK);
 
+	}
 }
