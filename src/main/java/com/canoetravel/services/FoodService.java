@@ -30,4 +30,13 @@ public class FoodService {
 		return localFoodRepo.findAll();
 	}
 
+	public LocalFood updateLocalFood(LocalFood localFood) {
+		return localFoodRepo.save(localFood);
+	}
+
+	public List<LocalFood> getLocalFoodByUserIdAndDestinationId(int customerId, int destinbationId) {
+		return localFoodRepo.findLocalFoodByCustomerIdAndDestinationId(customerId, destinbationId);
+		
+	}
+
 }

@@ -26,4 +26,17 @@ public class TouristAttractionService {
 		return touristAttractionRepo.findAll();
 	}
 
+	public LocalTouristAttraction updateLocalTouristAttraction(LocalTouristAttraction localTouristAttraction) {
+		return touristAttractionRepo.save(localTouristAttraction);
+	}
+
+	public List<LocalTouristAttraction> getLocalTouristAttractionByUserIdAndDestinationId(Integer customerId,
+			Integer destinationId) {
+		
+		List<LocalTouristAttraction> list =  touristAttractionRepo.findLocalTouristAttractionBycustomerIdAndDestinationId(customerId, destinationId);
+		System.out.println(list.size());
+		return list;
+		
+	}
+
 }
