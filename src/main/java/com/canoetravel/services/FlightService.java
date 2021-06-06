@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.canoetravel.entities.Flight;
+import com.canoetravel.entities.LocalTouristAttraction;
 import com.canoetravel.repository.FlightRepository;
 
 @Service
@@ -28,6 +29,11 @@ public class FlightService  {
 
 	public List<Flight> getAllFlight() {
 		return flightRepo.findAll();
+	}
+
+	public List<Flight> getFlightsByUserIdAndDestinationId(Integer userId, Integer destinationId) {
+		List<Flight> list =  flightRepo.findFlightBycustomerIdAndDestinationId(userId, destinationId);
+		return list;
 	}
 
 }

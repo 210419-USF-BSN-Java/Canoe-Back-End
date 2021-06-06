@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.canoetravel.entities.Destination;
+import com.canoetravel.entities.LocalTouristAttraction;
 import com.canoetravel.entities.Lodging;
 import com.canoetravel.entities.User;
 import com.canoetravel.repository.DestinationRepository;
@@ -76,4 +77,29 @@ public class LodgingController {
 		return new ResponseEntity<List<Lodging>>(allLodging, HttpStatus.OK);
 	}
 
+	
+	@GetMapping(value = "/getUserLodging")
+	public ResponseEntity<List<Lodging>> findLocalFoodByUserAndDestination(HttpServletRequest req){
+		List<Lodging> allLodgings = null;
+		HttpSession session = req.getSession(false);
+		if (session != null) {
+			User authUser = (User) session.getAttribute("authUser");
+			Destination dest = (Destination) session.getAttribute("destination");
+			if (authUser != null) {
+				allLodgings = lodgeService.getLodgingByUserIdAndDestinationId(authUser.getUserId(), dest.getDestinationId());
+//				allLodgings = lodgeService.getLodgingByUserIdAndDestinationId(1, 4); //testing
+				
+
+				 return new ResponseEntity<List<Lodging>>(allLodgings, HttpStatus.OK);
+
+			} else {
+				log.warn("No user found in session, bad request");
+				return new ResponseEntity<List<Lodging>>(allLodgings, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		
+	} else {
+		log.warn("No session found , bad request");
+			return new ResponseEntity<List<Lodging>>(allLodgings, HttpStatus.BAD_REQUEST);
+		}
+	}
 }
