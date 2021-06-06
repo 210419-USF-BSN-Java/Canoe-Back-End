@@ -63,13 +63,6 @@ public class DestinationController {
 //			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
 //		}
 	}
-
-	@GetMapping(value = "/allDestination")
-	public ResponseEntity<List<Destination>> getAllUsers() {
-		log.warn("Retrieved all destination placesa");
-		List<Destination> alldestination = destService.getAllDestination();
-		return new ResponseEntity<List<Destination>>(alldestination, HttpStatus.OK);
-	}
 	
 	@GetMapping(value = "/gettripplan/{userid}", produces = "application/json")
     public ResponseEntity<List<Destination>> getUser(@PathVariable int user_id) {
