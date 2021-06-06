@@ -60,6 +60,9 @@ public class UserController {
 		session.setAttribute("authUser", authUser);
 		System.out.print("========================================================");
 		System.out.println(authUser);
+		System.out.println("================================================");
+		User authUser1 = (User) session.getAttribute("authUser");
+		System.out.println("==============================================="+authUser1);
 		if (authUser != null && authUser.isActive() == true) {
 			log.info("user login success");
 			//HttpSession session = req.getSession();
