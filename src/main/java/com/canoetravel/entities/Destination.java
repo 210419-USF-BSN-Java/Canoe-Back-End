@@ -25,11 +25,8 @@ public class Destination implements Serializable {
 	@Column(name = "destination_id", columnDefinition = "serial")
 	private Integer destinationId;
 
-	@Column(name = "destination_country")
-	private String destinationCountry;
-
-	@Column(name = "destination_city")
-	private String destinationCity;
+	@Column(name = "destination")
+	private String destination;
 
 	@Column(name = "dest_to_user_id")
 	private Integer customerId;
@@ -61,13 +58,12 @@ public class Destination implements Serializable {
 	public Destination() {
 	}
 
-	public Destination(Integer destinationId, String destinationCountry, String destinationCity, Integer customerId,
-			User customer, Integer flightId, Flight flight, Integer lodgingId, Lodging lodging,
-			List<LocalFood> localFood, List<LocalTouristAttraction> localTouristAttraction) {
+	public Destination(Integer destinationId, String destination, Integer customerId, User customer, Integer flightId,
+			Flight flight, Integer lodgingId, Lodging lodging, List<LocalFood> localFood,
+			List<LocalTouristAttraction> localTouristAttraction) {
 		super();
 		this.destinationId = destinationId;
-		this.destinationCountry = destinationCountry;
-		this.destinationCity = destinationCity;
+		this.destination = destination;
 		this.customerId = customerId;
 		this.customer = customer;
 		this.flightId = flightId;
@@ -86,20 +82,12 @@ public class Destination implements Serializable {
 		this.destinationId = destinationId;
 	}
 
-	public String getDestinationCountry() {
-		return destinationCountry;
+	public String getDestination() {
+		return destination;
 	}
 
-	public void setDestinationCountry(String destinationCountry) {
-		this.destinationCountry = destinationCountry;
-	}
-
-	public String getDestinationCity() {
-		return destinationCity;
-	}
-
-	public void setDestinationCity(String destinationCity) {
-		this.destinationCity = destinationCity;
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 
 	public Integer getCustomerId() {
@@ -176,8 +164,7 @@ public class Destination implements Serializable {
 		int result = 1;
 		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
 		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
-		result = prime * result + ((destinationCity == null) ? 0 : destinationCity.hashCode());
-		result = prime * result + ((destinationCountry == null) ? 0 : destinationCountry.hashCode());
+		result = prime * result + ((destination == null) ? 0 : destination.hashCode());
 		result = prime * result + ((destinationId == null) ? 0 : destinationId.hashCode());
 		result = prime * result + ((flight == null) ? 0 : flight.hashCode());
 		result = prime * result + ((flightId == null) ? 0 : flightId.hashCode());
@@ -207,15 +194,10 @@ public class Destination implements Serializable {
 				return false;
 		} else if (!customerId.equals(other.customerId))
 			return false;
-		if (destinationCity == null) {
-			if (other.destinationCity != null)
+		if (destination == null) {
+			if (other.destination != null)
 				return false;
-		} else if (!destinationCity.equals(other.destinationCity))
-			return false;
-		if (destinationCountry == null) {
-			if (other.destinationCountry != null)
-				return false;
-		} else if (!destinationCountry.equals(other.destinationCountry))
+		} else if (!destination.equals(other.destination))
 			return false;
 		if (destinationId == null) {
 			if (other.destinationId != null)
@@ -257,9 +239,10 @@ public class Destination implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Destination [destinationId=" + destinationId + ", destinationCountry=" + destinationCountry
-				+ ", destinationCity=" + destinationCity + ", customerId=" + customerId + ", customer=" + customer
-				+ ", flightId=" + flightId + ", flight=" + flight + ", lodgingId=" + lodgingId + ", lodging=" + lodging
-				+ ", localFood=" + localFood + ", localTouristAttraction=" + localTouristAttraction + "]";
+		return "Destination [destinationId=" + destinationId + ", destination=" + destination + ", customerId="
+				+ customerId + ", customer=" + customer + ", flightId=" + flightId + ", flight=" + flight
+				+ ", lodgingId=" + lodgingId + ", lodging=" + lodging + ", localFood=" + localFood
+				+ ", localTouristAttraction=" + localTouristAttraction + "]";
 	}
+
 }

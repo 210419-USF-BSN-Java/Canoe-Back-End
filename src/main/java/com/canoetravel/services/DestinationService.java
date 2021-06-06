@@ -23,8 +23,7 @@ public class DestinationService  {
 		this.destRepo = destRepo;
 	}
 
-	public Destination saveDestination(Destination dest, User user) {
-		dest.setCustomerId(user.getUserId());
+	public Destination saveDestination(Destination dest) {
 		return destRepo.save(dest);
 	}
 

@@ -32,16 +32,16 @@ public class DestinationServiceTest {
 		destServ = Mockito.mock(DestinationService.class);
 		
 		destList = new ArrayList<>();
-		dest1 = new Destination(null, "testCountry", "testCity", 1, new User(), 1, new Flight(), 1, new Lodging(), null, null);
-		dest2 = new Destination(null, "testCountry1", "testCity1", 1, new User(), 1, new Flight(), 1, new Lodging(), null, null);
+		dest1 = new Destination(null, "testCountry", 1,  new User(), 1, new Flight(), 1, new Lodging(), null, null);
+		dest2 = new Destination(null, "testCountry1",  1, new User(), 1, new Flight(), 1, new Lodging(), null, null);
 		destList.add(dest1);
 		destList.add(dest2);
 	}
 	
 	@Test
 	public void saveDestinationTest() {
-		Mockito.when(destServ.saveDestination(dest1, null)).thenReturn(dest1);
-		assertEquals(dest1, destServ.saveDestination(dest1, null));
+		Mockito.when(destServ.saveDestination(dest1)).thenReturn(dest1);
+		assertEquals(dest1, destServ.saveDestination(dest1));
 	}
 	
 	@Test
@@ -52,8 +52,8 @@ public class DestinationServiceTest {
 	
 	@Test
 	public void updateDestioantionTest() {
-		dest1.setDestinationCity("updatedDestination");
+		dest1.setDestination("updatedDestination");
 		Mockito.when(destServ.updateDestination(dest1)).thenReturn(dest1);
-		assertEquals("updatedDestination", destServ.updateDestination(dest1).getDestinationCity());
+		assertEquals("updatedDestination", destServ.updateDestination(dest1).getDestination());
 	}
 }

@@ -2,9 +2,7 @@ package com.canoetravel.controllers;
 
 import java.util.List;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
@@ -65,7 +63,6 @@ public class UserController {
 
 		if (authUser != null && authUser.isActive() == true) {
 			log.info("login success");
-			req.setAttribute("authUser", authUser);
 			req.getSession().setAttribute("authUser", authUser);
 			return new ResponseEntity<User>(authUser, HttpStatus.ACCEPTED);
 		} else {
