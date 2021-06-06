@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.canoetravel.entities.LocalTouristAttraction;
 import com.canoetravel.entities.Lodging;
 import com.canoetravel.repository.LodgingRepository;
 
@@ -28,6 +29,12 @@ public class LodgingService {
 
 	public List<Lodging> getAllLodgingInfo() {
 		return lodgingRepo.findAll();
+	}
+
+	public List<Lodging> getLodgingByUserIdAndDestinationId(Integer userId, Integer destinationId) {
+		List<Lodging> list =  lodgingRepo.findLodgingBycustomerIdAndDestinationId(userId, destinationId);
+//		System.out.println(list.size());
+		return list;
 	}
 
 }
