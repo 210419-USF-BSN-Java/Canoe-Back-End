@@ -2,6 +2,8 @@ package com.canoetravel.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
@@ -22,6 +24,7 @@ import com.canoetravel.entities.Lodging;
 import com.canoetravel.entities.User;
 import com.canoetravel.repository.DestinationRepository;
 import com.canoetravel.services.LodgingService;
+import com.canoetravel.services.UserService;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -32,6 +35,8 @@ public class LodgingController {
 	private static Logger log = LogManager.getLogger(LodgingController.class);
 	private LodgingService lodgeService;
 	private DestinationRepository destRepo;
+	private UserService userService = new UserService();
+
 
 	@Autowired
 	public LodgingController(LodgingService lodgeService, DestinationRepository destRepo) {
@@ -40,8 +45,40 @@ public class LodgingController {
 	}
 
 	@PostMapping(value = "/saveLodging")
-	public ResponseEntity<String> saveLodging(@RequestBody Lodging lodging, HttpSession session) {
+	public ResponseEntity<String> saveLodging(@RequestBody Lodging lodging, HttpSession session, HttpServletRequest req) {
 
+		Cookie[] cookies = req.getCookies();
+		for(Cookie cookie : cookies) {
+			if(cookie.getName().equals("user_email")){
+				User user = userService.findByEmail(cookie.getValue());
+				System.out.println(cookie.getValue());
+				System.out.println(user);
+				if (user != null) {
+					Destination dest = (Destination) session.getAttribute("destination");
+
+					if (dest != null) {
+						lodging.setCustomerId(user.getUserId());
+						lodging.setDestinationId(dest.getDestinationId());
+						Lodging saveLodging = lodgeService.saveLodging(lodging);
+						if (saveLodging != null) {
+							dest.setLodgingId(saveLodging.getLodgingId());
+							destRepo.save(dest);
+							session.setAttribute("destination", dest);
+							return new ResponseEntity<String>("lodging saved successfully", HttpStatus.OK);
+						} else {
+							log.warn("Unable to save lodging data");
+							return new ResponseEntity<String>("can not save lodging", HttpStatus.BAD_REQUEST);
+						}
+					} else {
+						log.warn("Unable to find destination data");
+						return new ResponseEntity<String>("please select the destination first", HttpStatus.BAD_REQUEST);
+					}
+				} else {
+					log.warn("Unable to find user session");
+					return new ResponseEntity<String>("Please Login or SignUp for Account", HttpStatus.UNAUTHORIZED);
+				}
+			}
+		}/*
 		User authUser = (User) session.getAttribute("authUser");
 		if (authUser != null) {
 			Destination dest = (Destination) session.getAttribute("destination");
@@ -66,7 +103,8 @@ public class LodgingController {
 		} else {
 			log.warn("Unable to find user session");
 			return new ResponseEntity<String>("Please Login or SignUp for Account", HttpStatus.UNAUTHORIZED);
-		}
+		}*/
+		return null;
 	}
 
 	@GetMapping(value = "/allLodging")

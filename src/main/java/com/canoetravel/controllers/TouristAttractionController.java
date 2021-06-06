@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.canoetravel.entities.Destination;
-import com.canoetravel.entities.LocalFood;
 import com.canoetravel.entities.LocalTouristAttraction;
 import com.canoetravel.entities.User;
 import com.canoetravel.services.TouristAttractionService;

@@ -2,7 +2,9 @@ package com.canoetravel.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,13 +59,16 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> authenticateLogin(@RequestBody User user, HttpServletRequest req) {
+	public ResponseEntity<User> authenticateLogin(@RequestBody User user, HttpServletRequest req, HttpServletResponse res) {
 
 		User authUser = userService.authenticateLogin(user.getUserLogin(), user.getUserLoginPassword());
 
 		if (authUser != null && authUser.isActive() == true) {
 			log.info("login success");
-			req.getSession().setAttribute("authUser", authUser);
+			Cookie loginEmail = new Cookie("user_id", authUser.getUserEmail());
+			res.addCookie(loginEmail);
+			//req.setAttribute("authUser", authUser);
+			//req.getSession().setAttribute("authUser", authUser);
 			return new ResponseEntity<User>(authUser, HttpStatus.ACCEPTED);
 		} else {
 			log.warn("unauthorized login");
