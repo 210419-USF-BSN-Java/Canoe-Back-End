@@ -54,12 +54,16 @@ public class UserController {
 
 	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> authenticateLogin(@RequestBody User user, HttpServletRequest req) {
-
+		System.out.print("========================================================");
 		User authUser = userService.authenticateLogin(user.getUserLogin(), user.getUserLoginPassword());
-
+		HttpSession session = req.getSession();
+		session.setAttribute("authUser", authUser);
+		System.out.print("========================================================");
+		System.out.println(authUser);
 		if (authUser != null && authUser.isActive() == true) {
-			HttpSession session = req.getSession();
-			session.setAttribute("authUser", authUser);
+			log.info("user login success");
+			//HttpSession session = req.getSession();
+			//session.setAttribute("authUser", authUser);
 			System.out.print("========================================================");
 			return new ResponseEntity<User>(authUser, HttpStatus.ACCEPTED);
 		} else {
