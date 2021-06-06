@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.canoetravel.entities.Destination;
-import com.canoetravel.entities.LocalTouristAttraction;
 import com.canoetravel.entities.Lodging;
 import com.canoetravel.entities.User;
 import com.canoetravel.repository.DestinationRepository;
@@ -52,16 +51,19 @@ public class LodgingController {
 //			if (dest != null) {
 //				lodging.setCustomerId(authUser.getUserId());
 //				lodging.setDestinationId(dest.getDestinationId());
-				Lodging saveLodging = lodgeService.saveLodging(lodging);
-				if (saveLodging != null) {
+		Destination destination = DestinationController.choosedDestination;
+		lodging.setDestinationId(destination.getDestinationId());
+		lodging.setCustomerId(destination.getCustomerId());
+		Lodging saveLodging = lodgeService.saveLodging(lodging);
+		if (saveLodging != null) {
 //					dest.setLodgingId(saveLodging.getLodgingId());
 //					destRepo.save(dest);
 //					session.setAttribute("destination", dest);
-					return new ResponseEntity<String>("lodging saved successfully", HttpStatus.OK);
-				} else {
-					log.warn("Unable to save lodging data");
-					return new ResponseEntity<String>("can not save lodging", HttpStatus.BAD_REQUEST);
-				}
+			return new ResponseEntity<String>("lodging saved successfully", HttpStatus.OK);
+		} else {
+			log.warn("Unable to save lodging data");
+			return new ResponseEntity<String>("can not save lodging", HttpStatus.BAD_REQUEST);
+		}
 //			} else {
 //				log.warn("Unable to find destination data");
 //				return new ResponseEntity<String>("please select the destination first", HttpStatus.BAD_REQUEST);
@@ -79,39 +81,39 @@ public class LodgingController {
 		return new ResponseEntity<List<Lodging>>(allLodging, HttpStatus.OK);
 	}
 
-	
 	@GetMapping(value = "/getUserLodging")
-	public ResponseEntity<List<Lodging>> findLocalFoodByUserAndDestination(HttpServletRequest req){
+	public ResponseEntity<List<Lodging>> findLocalFoodByUserAndDestination(HttpServletRequest req) {
 		List<Lodging> allLodgings = null;
 		HttpSession session = req.getSession(false);
 		if (session != null) {
 			User authUser = (User) session.getAttribute("authUser");
 			Destination dest = (Destination) session.getAttribute("destination");
 			if (authUser != null) {
-				allLodgings = lodgeService.getLodgingByUserIdAndDestinationId(authUser.getUserId(), dest.getDestinationId());
+				allLodgings = lodgeService.getLodgingByUserIdAndDestinationId(authUser.getUserId(),
+						dest.getDestinationId());
 //				allLodgings = lodgeService.getLodgingByUserIdAndDestinationId(1, 4); //testing
-				
 
-				 return new ResponseEntity<List<Lodging>>(allLodgings, HttpStatus.OK);
+				return new ResponseEntity<List<Lodging>>(allLodgings, HttpStatus.OK);
 
 			} else {
 				log.warn("No user found in session, bad request");
 				return new ResponseEntity<List<Lodging>>(allLodgings, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-		
-	} else {
-		log.warn("No session found , bad request");
+
+		} else {
+			log.warn("No session found , bad request");
 			return new ResponseEntity<List<Lodging>>(allLodgings, HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@DeleteMapping(value = "/deleteLodgingByUser")
-	public ResponseEntity<String> deleteLodingByUserAndDestination(@RequestBody Lodging lodging, HttpServletRequest req){
+	public ResponseEntity<String> deleteLodingByUserAndDestination(@RequestBody Lodging lodging,
+			HttpServletRequest req) {
 		HttpSession session = req.getSession(false);
 		if (session != null) {
 			User authUser = (User) session.getAttribute("authUser");
 			if (authUser != null) {
-				int c =  lodgeService.deleteLodgingByLodgingId(lodging.getLodgingId());
+				int c = lodgeService.deleteLodgingByLodgingId(lodging.getLodgingId());
 //				log.warn(" the local tourist attraction id is " + tAttraction.getLocalTouristAttaraction());
 				if (c > 0) {
 					return new ResponseEntity<String>("lodging entry deleted successfully", HttpStatus.OK);
@@ -127,8 +129,7 @@ public class LodgingController {
 			log.warn("No session found");
 			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
 		}
-	
+
 	}
-	
-	
+
 }

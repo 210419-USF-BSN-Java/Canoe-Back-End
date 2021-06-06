@@ -31,28 +31,32 @@ public class DestinationController {
 	private static Logger log = LogManager.getLogger(DestinationController.class);
 
 	private DestinationService destService;
-
+	static Destination choosedDestination;
+	
+	
 	@Autowired
 	public DestinationController(DestinationService serv) {
 		this.destService = serv;
 	}
 
 	@PostMapping(value = "/saveDestination")
-	public ResponseEntity<Destination> saveDestination(@RequestBody Destination dest, HttpServletRequest req) {
+	public ResponseEntity<String> saveDestination(@RequestBody Destination dest, HttpServletRequest req) {
 
 //		HttpSession session = req.getSession(false);
 //		if (session != null) {
 //			User authUser = (User) session.getAttribute("authUser");
 //			if (authUser != null) {
 		//dest.setCustomerId(authUser.getUserId());
-
+				User loginUser = UserController.loginUser;
+				dest.setCustomerId(loginUser.getUserId());
 				Destination saveDest = destService.saveDestination(dest);
-				if (dest != null) {
+				if (saveDest != null) {
+					choosedDestination = saveDest;
 					req.setAttribute("destination", dest);
-					return new ResponseEntity<Destination>(saveDest, HttpStatus.ACCEPTED);
+					return new ResponseEntity<String>("destination saved successfully", HttpStatus.ACCEPTED);
 				} else {
 					log.warn("Unable to save destination");
-					return new ResponseEntity<Destination>(saveDest, HttpStatus.INTERNAL_SERVER_ERROR);
+					return new ResponseEntity<String>("can not save destination", HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 //			} else {
 //				log.warn("No user session");

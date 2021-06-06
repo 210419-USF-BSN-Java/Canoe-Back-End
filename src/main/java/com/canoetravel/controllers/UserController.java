@@ -34,6 +34,7 @@ public class UserController {
 	private static Logger log = LogManager.getLogger(UserController.class);
 	private UserService userService;
 	private HttpSession session=null;
+	public static User loginUser;
 
 
 	@Autowired
@@ -63,6 +64,7 @@ public class UserController {
 
 		if (authUser != null && authUser.isActive() == true) {
 			log.info("login success");
+			loginUser = authUser;
 			req.getSession().setAttribute("authUser", authUser);
 			return new ResponseEntity<User>(authUser, HttpStatus.ACCEPTED);
 		} else {
