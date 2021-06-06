@@ -10,7 +10,7 @@ import com.canoetravel.entities.User;
 import com.canoetravel.repository.DestinationRepository;
 
 @Service
-public class DestinationService  {
+public class DestinationService {
 
 	private DestinationRepository destRepo;
 
@@ -33,6 +33,11 @@ public class DestinationService  {
 
 	public Destination updateDestination(Destination dest) {
 		return destRepo.save(dest);
+	}
+
+	public List<Destination> getTripListByUserId(int user_id) {
+	 List<Destination> tripList = destRepo.findByCustomerId(user_id);
+	return tripList;
 	}
 
 }
