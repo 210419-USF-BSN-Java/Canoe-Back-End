@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.canoetravel.entities.User;
 import com.canoetravel.services.UserService;
@@ -27,6 +29,7 @@ import com.canoetravel.services.UserService;
 @RestController
 @RequestMapping(value = "/user")
 @CrossOrigin(origins = "http://canoe-front.s3-website.us-east-2.amazonaws.com/")
+@SessionAttributes("authUser")
 public class UserController {
 
 	private static Logger log = LogManager.getLogger(UserController.class);
@@ -56,16 +59,15 @@ public class UserController {
 
 	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> authenticateLogin(@RequestBody User user, HttpServletRequest req) {
-		
+
 		User authUser = userService.authenticateLogin(user.getUserLogin(), user.getUserLoginPassword());
+
 		if (authUser != null && authUser.isActive() == true) {
-			log.info("user login success");
+			log.info("login success");
 			req.getSession().setAttribute("authUser", authUser);
-//			session = req.getSession();
-//			session.setAttribute("authUser", authUser);
 			return new ResponseEntity<User>(authUser, HttpStatus.ACCEPTED);
 		} else {
-			log.warn("Unable to authenticate user");
+			log.warn("unauthorized login");
 			return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);
 		}
 	}
