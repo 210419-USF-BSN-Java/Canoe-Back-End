@@ -2,6 +2,7 @@ package com.canoetravel.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.canoetravel.entities.Destination;
-import com.canoetravel.entities.LocalTouristAttraction;
 import com.canoetravel.entities.Lodging;
 import com.canoetravel.entities.User;
 import com.canoetravel.repository.DestinationRepository;
