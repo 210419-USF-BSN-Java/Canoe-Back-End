@@ -41,7 +41,7 @@ public class LodgingController {
 	@PostMapping(value = "/saveLodging")
 	public ResponseEntity<String> saveLodging(@RequestBody Lodging lodging, HttpServletRequest req) {
 
-		HttpSession session = req.getSession(false);
+		HttpSession session = req.getSession();
 		if (session != null) {
 			User authUser = (User) session.getAttribute("authUser");
 			Destination dest = (Destination) session.getAttribute("destination");
