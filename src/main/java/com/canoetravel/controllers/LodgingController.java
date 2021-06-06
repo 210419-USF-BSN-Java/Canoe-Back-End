@@ -41,10 +41,12 @@ public class LodgingController {
 
 	@PostMapping(value = "/saveLodging")
 	public ResponseEntity<String> saveLodging(@RequestBody Lodging lodging, HttpServletRequest req) {
-		HttpSession session = req.getSession(false);
-		User authUser = (User) session.getAttribute("authUser");
+		//HttpSession session = req.getSession(false);
+		User authUser = userController.getSessionUser();
+		System.out.println("===========================user====================="+authUser);
+		//User authUser = (User) session.getAttribute("authUser");
 		if (authUser != null) {
-			Destination dest = (Destination) session.getAttribute("destination");
+			Destination dest = new Destination();
 			if (dest != null) {
 				lodging.setCustomerId(authUser.getUserId());
 				lodging.setDestinationId(dest.getDestinationId());
@@ -52,7 +54,7 @@ public class LodgingController {
 				if (saveLodging != null) {
 					dest.setLodgingId(saveLodging.getLodgingId());
 					destRepo.save(dest);
-					session.setAttribute("destination", dest);
+					//session.setAttribute("destination", dest);
 					return new ResponseEntity<String>("lodging saved successfully", HttpStatus.OK);
 				} else {
 					log.warn("Unable to save lodging data");
