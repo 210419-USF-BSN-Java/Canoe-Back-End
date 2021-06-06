@@ -10,4 +10,6 @@ public interface LodgingRepository extends JpaRepository<Lodging, Integer>{
 
 	List<Lodging> findLodgingBycustomerIdAndDestinationId(Integer userId, Integer destinationId);
 
+	int removeByLodgingId(Integer lodgingId);
+
 }

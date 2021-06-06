@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.canoetravel.entities.Destination;
+import com.canoetravel.entities.LocalTouristAttraction;
 import com.canoetravel.entities.Lodging;
 import com.canoetravel.entities.User;
 import com.canoetravel.repository.DestinationRepository;
@@ -102,4 +104,31 @@ public class LodgingController {
 			return new ResponseEntity<List<Lodging>>(allLodgings, HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@DeleteMapping(value = "/deleteLodgingByUser")
+	public ResponseEntity<String> deleteLodingByUserAndDestination(@RequestBody Lodging lodging, HttpServletRequest req){
+		HttpSession session = req.getSession(false);
+		if (session != null) {
+			User authUser = (User) session.getAttribute("authUser");
+			if (authUser != null) {
+				int c =  lodgeService.deleteLodgingByLodgingId(lodging.getLodgingId());
+//				log.warn(" the local tourist attraction id is " + tAttraction.getLocalTouristAttaraction());
+				if (c > 0) {
+					return new ResponseEntity<String>("lodging entry deleted successfully", HttpStatus.OK);
+				} else {
+					log.warn("can not delete lodging entry");
+					return new ResponseEntity<String>("can not delete lodging entry", HttpStatus.BAD_REQUEST);
+				}
+			} else {
+				log.warn("No user found in session");
+				return new ResponseEntity<String>("No user found in session", HttpStatus.BAD_REQUEST);
+			}
+		} else {
+			log.warn("No session found");
+			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
+		}
+	
+	}
+	
+	
 }
