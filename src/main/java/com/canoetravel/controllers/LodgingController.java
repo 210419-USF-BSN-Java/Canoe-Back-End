@@ -52,8 +52,9 @@ public class LodgingController {
 //				lodging.setCustomerId(authUser.getUserId());
 //				lodging.setDestinationId(dest.getDestinationId());
 		Destination destination = DestinationController.choosedDestination;
-		lodging.setDestinationId(destination.getDestinationId());
-		lodging.setCustomerId(destination.getCustomerId());
+		User loginUser = UserController.loginUser;
+//		lodging.setDestinationId(destination.getDestinationId());
+		lodging.setCustomerId(loginUser.getUserId());
 		Lodging saveLodging = lodgeService.saveLodging(lodging);
 		if (saveLodging != null) {
 //					dest.setLodgingId(saveLodging.getLodgingId());
