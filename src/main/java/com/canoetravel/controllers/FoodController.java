@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.canoetravel.entities.Destination;
 import com.canoetravel.entities.LocalFood;
+import com.canoetravel.entities.LocalTouristAttraction;
 import com.canoetravel.entities.User;
 import com.canoetravel.services.FoodService;
 
@@ -122,5 +124,30 @@ public class FoodController {
 		}
 		return new ResponseEntity<List<LocalFood>>(allLocalFoods, HttpStatus.OK);
 
+	}
+	
+	@DeleteMapping(value = "/deletelocalFoodByUser")
+	public ResponseEntity<String> deleteLocalFoodByUserAndDestination(@RequestBody LocalFood LocalFood, HttpServletRequest req){
+		HttpSession session = req.getSession(false);
+		if (session != null) {
+			User authUser = (User) session.getAttribute("authUser");
+			if (authUser != null) {
+				int c =  foodService.deleteLocalFoodByLocalFoodId(LocalFood.getLocalFoodId());
+
+				if (c > 0) {
+					return new ResponseEntity<String>("local food deleted successfully", HttpStatus.OK);
+				} else {
+					log.warn("can not delete food");
+					return new ResponseEntity<String>("can not delete local food entry", HttpStatus.BAD_REQUEST);
+				}
+			} else {
+				log.warn("No user found in session");
+				return new ResponseEntity<String>("No user found in session", HttpStatus.BAD_REQUEST);
+			}
+		} else {
+			log.warn("No session found");
+			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
+		}
+	
 	}
 }
