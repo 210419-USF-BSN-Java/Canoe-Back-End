@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.canoetravel.entities.Destination;
 import com.canoetravel.entities.Flight;
-import com.canoetravel.entities.LocalTouristAttraction;
 import com.canoetravel.entities.User;
 import com.canoetravel.repository.DestinationRepository;
 import com.canoetravel.services.FlightService;
@@ -43,19 +42,17 @@ public class FlightController {
 	@PostMapping(value = "/saveFlight")
 	public ResponseEntity<String> saveFlight(@RequestBody Flight flight, HttpServletRequest req) {
 
-		HttpSession session = req.getSession(false);
-		if (session != null) {
-			User authUser = (User) session.getAttribute("authUser");
-			Destination dest = (Destination) session.getAttribute("destination");
-
+		User authUser = UserController.loginUser;
+		if (authUser != null) {
+			Destination dest = DestinationController.choosedDestination;
 			if (dest != null) {
 				flight.setCustomerId(authUser.getUserId());
-				flight.setDestinationId(dest.getDestinationId());
+				//flight.setDestinationId(dest.getDestinationId());
 				Flight saveFlight = flightService.saveFlight(flight);
 				if (saveFlight != null) {
 					dest.setFlightId(saveFlight.getFlightInfoId());
 					destRepo.save(dest);
-					session.setAttribute("destination", dest);
+					//session.setAttribute("destination", dest);
 					return new ResponseEntity<String>("flight saved successfully", HttpStatus.OK);
 				} else {
 					log.warn("Unable to save flight information");

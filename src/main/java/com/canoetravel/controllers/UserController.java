@@ -89,10 +89,10 @@ public class UserController {
 
 	@PutMapping(value = "/updateuser")
 	public ResponseEntity<String> updateUserInfo(@RequestBody User user, HttpServletRequest req) {
-
-		session = req.getSession(false);
-		if (session != null) {
-			User sessionUser = (User) session.getAttribute("authUser");
+		
+// 			User sessionUser = (User) session.getAttribute("authUser");
+		User sessionUser= loginUser;
+		if (sessionUser != null) {
 
 			if (!user.getUserFname().equalsIgnoreCase(null) && !user.getUserFname().isEmpty()) {
 				sessionUser.setUserFname(user.getUserFname());
@@ -127,7 +127,6 @@ public class UserController {
 		}else {
 			log.warn("Unable to get user");
 			return new ResponseEntity<>(null, HttpStatus.OK);
-
 		}
 	}
 }

@@ -44,35 +44,30 @@ public class LodgingController {
 	@PostMapping(value = "/saveLodging")
 	public ResponseEntity<String> saveLodging(@RequestBody Lodging lodging, HttpSession session) {
 
-//		User authUser = (User) session.getAttribute("authUser");
-//		if (authUser != null) {
-//			Destination dest = (Destination) session.getAttribute("destination");
-
-//			if (dest != null) {
-//				lodging.setCustomerId(authUser.getUserId());
-//				lodging.setDestinationId(dest.getDestinationId());
-		Destination destination = DestinationController.choosedDestination;
-		User loginUser = UserController.loginUser;
-//		lodging.setDestinationId(destination.getDestinationId());
-		lodging.setCustomerId(loginUser.getUserId());
-		Lodging saveLodging = lodgeService.saveLodging(lodging);
-		if (saveLodging != null) {
-//					dest.setLodgingId(saveLodging.getLodgingId());
-//					destRepo.save(dest);
-//					session.setAttribute("destination", dest);
-			return new ResponseEntity<String>("lodging saved successfully", HttpStatus.OK);
+		User authUser = UserController.loginUser;
+		if (authUser != null) {
+			Destination dest = DestinationController.choosedDestination;
+			if (dest != null) {
+				// lodging.setDestinationId(dest.getDestinationId());
+				lodging.setCustomerId(authUser.getUserId());
+				Lodging saveLodging = lodgeService.saveLodging(lodging);
+				if (saveLodging != null) {
+					dest.setLodgingId(saveLodging.getLodgingId());
+					destRepo.save(dest);
+					// session.setAttribute("destination", dest);
+					return new ResponseEntity<String>("lodging saved successfully", HttpStatus.OK);
+				} else {
+					log.warn("Unable to save lodging data");
+					return new ResponseEntity<String>("can not save lodging", HttpStatus.BAD_REQUEST);
+				}
+			} else {
+				log.warn("Unable to find destination data");
+				return new ResponseEntity<String>("please select the destination first", HttpStatus.BAD_REQUEST);
+			}
 		} else {
-			log.warn("Unable to save lodging data");
-			return new ResponseEntity<String>("can not save lodging", HttpStatus.BAD_REQUEST);
+			log.warn("Unable to find user session");
+			return new ResponseEntity<String>("Please Login or SignUp for Account", HttpStatus.UNAUTHORIZED);
 		}
-//			} else {
-//				log.warn("Unable to find destination data");
-//				return new ResponseEntity<String>("please select the destination first", HttpStatus.BAD_REQUEST);
-//			}
-//		} else {
-//			log.warn("Unable to find user session");
-//			return new ResponseEntity<String>("Please Login or SignUp for Account", HttpStatus.UNAUTHORIZED);
-//		}
 	}
 
 	@GetMapping(value = "/allLodging")
@@ -110,10 +105,10 @@ public class LodgingController {
 	@DeleteMapping(value = "/deleteLodgingByUser")
 	public ResponseEntity<String> deleteLodingByUserAndDestination(@RequestBody Lodging lodging,
 			HttpServletRequest req) {
-		HttpSession session = req.getSession(false);
-		if (session != null) {
-			User authUser = (User) session.getAttribute("authUser");
-			if (authUser != null) {
+		User authUser = UserController.loginUser;
+		if (authUser != null) {
+			Destination dest = DestinationController.choosedDestination;
+			if (dest != null) {
 				int c = lodgeService.deleteLodgingByLodgingId(lodging.getLodgingId());
 //				log.warn(" the local tourist attraction id is " + tAttraction.getLocalTouristAttaraction());
 				if (c > 0) {
@@ -124,7 +119,7 @@ public class LodgingController {
 				}
 			} else {
 				log.warn("No user found in session");
-				return new ResponseEntity<String>("No user found in session", HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<String>("No destination found in session", HttpStatus.BAD_REQUEST);
 			}
 		} else {
 			log.warn("No session found");

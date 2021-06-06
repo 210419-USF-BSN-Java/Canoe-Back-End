@@ -3,7 +3,6 @@ package com.canoetravel.controllers;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,14 +39,12 @@ public class FoodController {
 	@PostMapping(value = "/saveLocalFood")
 	public ResponseEntity<String> saveLodging(@RequestBody LocalFood localFood, HttpServletRequest req) {
 
-		HttpSession session = req.getSession(false);
-		if (session != null) {
-			User authUser = (User) session.getAttribute("authUser");
-			Destination dest = (Destination) session.getAttribute("destination");
-
+		User authUser = UserController.loginUser;
+		if (authUser != null) {
+			Destination dest = DestinationController.choosedDestination;
 			if (dest != null) {
 				localFood.setCustomerId(authUser.getUserId());
-				localFood.setDestinationId(dest.getDestinationId());
+				// localFood.setDestinationId(dest.getDestinationId());
 				LocalFood saveLocalFood = foodService.saveLocalFood(localFood);
 				if (saveLocalFood != null) {
 					return new ResponseEntity<String>("local food event saved successfully", HttpStatus.OK);
@@ -65,32 +62,32 @@ public class FoodController {
 		}
 
 	}
-	
+
 	@GetMapping(value = "/allLocalFood")
 	public ResponseEntity<List<LocalFood>> getAllLocalFood() {
 		log.warn("Returning all local food data");
 		List<LocalFood> allLocalFoods = foodService.getAllLocalFood();
 		return new ResponseEntity<List<LocalFood>>(allLocalFoods, HttpStatus.OK);
 	}
-	
+
 	@PutMapping(value = "/updatelocalFood")
 	public ResponseEntity<String> updateLocalFood(@RequestBody LocalFood localFood, HttpServletRequest req) {
 
-		HttpSession session = req.getSession(false);
-		if (session != null) {
-			User authUser = (User) session.getAttribute("authUser");
-			Destination dest = (Destination) session.getAttribute("destination");
-			if (authUser != null) {
+		User authUser = UserController.loginUser;
+		if (authUser != null) {
+			Destination dest = DestinationController.choosedDestination;
+			if (dest != null) {
 				localFood.setCustomerId(authUser.getUserId());
 				localFood.setDestinationId(dest.getDestinationId());
-				
+
 				LocalFood localFoodAttraction = foodService.updateLocalFood(localFood);
 				if (localFoodAttraction != null) {
-					session.setAttribute("destination", dest);
+					// session.setAttribute("destination", dest);
 					return new ResponseEntity<String>("local food updated", HttpStatus.ACCEPTED);
 				} else {
 					log.warn("Unable to update local food");
-					return new ResponseEntity<String>("can not update local food  - something went worng", HttpStatus.INTERNAL_SERVER_ERROR);
+					return new ResponseEntity<String>("can not update local food  - something went worng",
+							HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 			} else {
 				log.warn("No user found in session, bad request");
@@ -102,51 +99,49 @@ public class FoodController {
 
 		}
 	}
-	
+
 	@GetMapping(value = "/getUserlocalfood")
-	public ResponseEntity<List<LocalFood>> findLocalFoodByUserAndDestination(HttpServletRequest req){
+	public ResponseEntity<List<LocalFood>> findLocalFoodByUserAndDestination(HttpServletRequest req) {
 		List<LocalFood> allLocalFoods = null;
-		HttpSession session = req.getSession(false);
-		if (session != null) {
-			User authUser = (User) session.getAttribute("authUser");
-			Destination dest = (Destination) session.getAttribute("destination");
-			if (authUser != null) {
-				 allLocalFoods = foodService.getLocalFoodByUserIdAndDestinationId(authUser.getUserId(), dest.getDestinationId());
+
+		User authUser = UserController.loginUser;
+		if (authUser != null) {
+			Destination dest = DestinationController.choosedDestination;
+			if (dest != null) {
+				allLocalFoods = foodService.getLocalFoodByUserIdAndDestinationId(authUser.getUserId(),
+						dest.getDestinationId());
 			} else {
 				log.warn("No user found in session, bad request");
 				return new ResponseEntity<List<LocalFood>>(allLocalFoods, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-		
-	} else {
-		log.warn("No session found , bad request");
+
+		} else {
+			log.warn("No session found , bad request");
 			return new ResponseEntity<List<LocalFood>>(allLocalFoods, HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<List<LocalFood>>(allLocalFoods, HttpStatus.OK);
 
 	}
-	
-	@DeleteMapping(value = "/deletelocalFoodByUser")
-	public ResponseEntity<String> deleteLocalFoodByUserAndDestination(@RequestBody LocalFood LocalFood, HttpServletRequest req){
-		HttpSession session = req.getSession(false);
-		if (session != null) {
-			User authUser = (User) session.getAttribute("authUser");
-			if (authUser != null) {
-				int c =  foodService.deleteLocalFoodByLocalFoodId(LocalFood.getLocalFoodId());
 
-				if (c > 0) {
-					return new ResponseEntity<String>("local food deleted successfully", HttpStatus.OK);
-				} else {
-					log.warn("can not delete food");
-					return new ResponseEntity<String>("can not delete local food entry", HttpStatus.BAD_REQUEST);
-				}
+	@DeleteMapping(value = "/deletelocalFoodByUser")
+	public ResponseEntity<String> deleteLocalFoodByUserAndDestination(@RequestBody LocalFood LocalFood,
+			HttpServletRequest req) {
+
+		User authUser = UserController.loginUser;
+		if (authUser != null) {
+
+			int c = foodService.deleteLocalFoodByLocalFoodId(LocalFood.getLocalFoodId());
+
+			if (c > 0) {
+				return new ResponseEntity<String>("local food deleted successfully", HttpStatus.OK);
 			} else {
-				log.warn("No user found in session");
-				return new ResponseEntity<String>("No user found in session", HttpStatus.BAD_REQUEST);
+				log.warn("can not delete food");
+				return new ResponseEntity<String>("can not delete local food entry", HttpStatus.BAD_REQUEST);
 			}
 		} else {
-			log.warn("No session found");
-			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
+			log.warn("No user found in session");
+			return new ResponseEntity<String>("No user found in session", HttpStatus.BAD_REQUEST);
 		}
-	
+
 	}
 }
