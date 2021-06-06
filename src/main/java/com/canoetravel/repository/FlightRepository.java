@@ -10,4 +10,6 @@ import com.canoetravel.entities.LocalTouristAttraction;
 public interface FlightRepository extends JpaRepository<Flight, Integer>{
 
 	List<Flight> findFlightBycustomerIdAndDestinationId(int user_Id, int travel_destination_id);
+
+	int removeByFlightInfoId(Integer flightInfoId);
 }

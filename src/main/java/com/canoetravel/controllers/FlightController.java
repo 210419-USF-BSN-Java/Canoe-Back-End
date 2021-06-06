@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -81,7 +82,7 @@ public class FlightController {
 	
 	
 	@GetMapping(value = "/getuserflights")
-	public ResponseEntity<List<Flight>> findLocalFoodByUserAndDestination(HttpServletRequest req){
+	public ResponseEntity<List<Flight>> findFlightByUserAndDestination(HttpServletRequest req){
 		List<Flight> allFlights = null;
 		HttpSession session = req.getSession(false);
 		if (session != null) {
@@ -102,5 +103,34 @@ public class FlightController {
 			return new ResponseEntity<List<Flight>>(allFlights, HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@DeleteMapping(value = "/deleteFlightByUser")
+	public ResponseEntity<String> deleteFlightByFlightInfoId(@RequestBody Flight flight, HttpServletRequest req){
+		HttpSession session = req.getSession(false);
+		if (session != null) {
+			User authUser = (User) session.getAttribute("authUser");
+			if (authUser != null) {
+				log.warn(" flight info id is " + flight.getFlightInfoId());
+				int c =  flightService.deleteFlightByFlightInfoId(flight.getFlightInfoId());
+//				int c =  flightService.deleteFlightByFlightInfoId(1);
+
+				if (c > 0) {
+					return new ResponseEntity<String>("local flight deleted successfully", HttpStatus.OK);
+				} else {
+					log.warn("can not delete flight data");
+					return new ResponseEntity<String>("can not delete flight", HttpStatus.BAD_REQUEST);
+				}
+			} else {
+				log.warn("No user found in session");
+				return new ResponseEntity<String>("No user found in session", HttpStatus.BAD_REQUEST);
+			}
+		} else {
+			log.warn("No session found");
+			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);
+		}
+	
+	}
+	
+	
 
 }
