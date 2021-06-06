@@ -31,6 +31,8 @@ public class UserController {
 
 	private static Logger log = LogManager.getLogger(UserController.class);
 	private UserService userService;
+	private HttpSession session=null;
+
 
 	@Autowired
 	public UserController(UserService serv) {
@@ -54,20 +56,12 @@ public class UserController {
 
 	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> authenticateLogin(@RequestBody User user, HttpServletRequest req) {
-		System.out.print("========================================================");
+		
 		User authUser = userService.authenticateLogin(user.getUserLogin(), user.getUserLoginPassword());
-		HttpSession session = req.getSession();
-		session.setAttribute("authUser", authUser);
-		System.out.print("========================================================");
-		System.out.println(authUser);
-		System.out.println("================================================");
-		User authUser1 = (User) session.getAttribute("authUser");
-		System.out.println("==============================================="+authUser1);
 		if (authUser != null && authUser.isActive() == true) {
 			log.info("user login success");
-			//HttpSession session = req.getSession();
-			//session.setAttribute("authUser", authUser);
-			System.out.print("========================================================");
+			session = req.getSession();
+			session.setAttribute("authUser", authUser);
 			return new ResponseEntity<User>(authUser, HttpStatus.ACCEPTED);
 		} else {
 			log.warn("Unable to authenticate user");
@@ -92,7 +86,7 @@ public class UserController {
 	@PutMapping(value = "/updateuser")
 	public ResponseEntity<String> updateUserInfo(@RequestBody User user, HttpServletRequest req) {
 
-		HttpSession session = req.getSession(false);
+		session = req.getSession(false);
 		if (session != null) {
 			User sessionUser = (User) session.getAttribute("authUser");
 
@@ -123,7 +117,7 @@ public class UserController {
 	
 	@GetMapping(value = "/getUser/{email}", produces = "application/json")
     public ResponseEntity<User> getUser(@PathVariable String email) {
-		User user = userService .findByEmail(email);
+		User user = userService.findByEmail(email);
 		if (user != null) {
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		}else {
@@ -131,5 +125,9 @@ public class UserController {
 			return new ResponseEntity<>(null, HttpStatus.OK);
 
 		}
+	}
+	
+	public User getSessionUser(){
+	return (User) session.getAttribute("authUser");
 	}
 }
