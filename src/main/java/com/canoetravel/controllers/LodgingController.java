@@ -42,7 +42,9 @@ public class LodgingController {
 	public ResponseEntity<String> saveLodging(@RequestBody Lodging lodging, HttpServletRequest req) {
 
 		HttpSession session = req.getSession(false);
+		System.out.println("================================================");
 		User authUser = (User) session.getAttribute("authUser");
+		System.out.println("==============================================="+authUser);
 		if (authUser != null) {
 			Destination dest = (Destination) session.getAttribute("destination");
 			if (dest != null) {

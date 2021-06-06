@@ -60,6 +60,7 @@ public class UserController {
 		if (authUser != null && authUser.isActive() == true) {
 			HttpSession session = req.getSession();
 			session.setAttribute("authUser", authUser);
+			System.out.print("========================================================");
 			return new ResponseEntity<User>(authUser, HttpStatus.ACCEPTED);
 		} else {
 			log.warn("Unable to authenticate user");
