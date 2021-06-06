@@ -58,8 +58,8 @@ public class UserController {
 		User authUser = userService.authenticateLogin(user.getUserLogin(), user.getUserLoginPassword());
 
 		if (authUser != null && authUser.isActive() == true) {
-			HttpSession userSession = req.getSession();
-			userSession.setAttribute("authUser", authUser);
+			HttpSession session = req.getSession();
+			session.setAttribute("authUser", authUser);
 			return new ResponseEntity<User>(authUser, HttpStatus.ACCEPTED);
 		} else {
 			log.warn("Unable to authenticate user");
