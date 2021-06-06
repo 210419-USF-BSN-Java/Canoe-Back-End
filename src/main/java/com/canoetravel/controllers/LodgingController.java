@@ -40,7 +40,8 @@ public class LodgingController {
 
 	@PostMapping(value = "/saveLodging")
 	public ResponseEntity<String> saveLodging(@RequestBody Lodging lodging, HttpServletRequest req) {
-
+		System.out.println(lodging);
+		System.out.println("=============================From save lodging==========================");
 		HttpSession session = req.getSession(false);
 		System.out.println("================================================");
 		User authUser = (User) session.getAttribute("authUser");
