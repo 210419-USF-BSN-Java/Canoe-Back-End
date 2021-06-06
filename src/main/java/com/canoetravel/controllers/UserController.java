@@ -59,16 +59,14 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> authenticateLogin(@RequestBody User user, HttpServletRequest req, HttpServletResponse res) {
+	public ResponseEntity<User> authenticateLogin(@RequestBody User user, HttpServletRequest req) {
 
 		User authUser = userService.authenticateLogin(user.getUserLogin(), user.getUserLoginPassword());
 
 		if (authUser != null && authUser.isActive() == true) {
 			log.info("login success");
-			Cookie loginEmail = new Cookie("user_id", authUser.getUserEmail());
-			res.addCookie(loginEmail);
-			//req.setAttribute("authUser", authUser);
-			//req.getSession().setAttribute("authUser", authUser);
+			req.setAttribute("authUser", authUser);
+			req.getSession().setAttribute("authUser", authUser);
 			return new ResponseEntity<User>(authUser, HttpStatus.ACCEPTED);
 		} else {
 			log.warn("unauthorized login");
