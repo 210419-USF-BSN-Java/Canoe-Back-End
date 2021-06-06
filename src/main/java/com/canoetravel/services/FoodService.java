@@ -34,4 +34,9 @@ public class FoodService {
 		return localFoodRepo.save(localFood);
 	}
 
+	public List<LocalFood> getLocalFoodByUserIdAndDestinationId(int customerId, int destinbationId) {
+		return localFoodRepo.findLocalFoodByCustomerIdAndDestinationId(customerId, destinbationId);
+		
+	}
+
 }
