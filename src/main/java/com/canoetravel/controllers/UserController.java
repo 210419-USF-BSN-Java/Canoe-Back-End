@@ -119,7 +119,7 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping(value = "/getUser/{email}", produces = "application/json")
+	@GetMapping(value = "/getUserByEmail/{email}", produces = "application/json")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
 		User user = userService.findByEmail(email);
 		if (user != null) {
