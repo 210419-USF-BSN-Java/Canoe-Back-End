@@ -52,10 +52,6 @@ public class UserService {
 
 	}
 
-	public User findByLogin(String Login) {
-		return userRepo.findByUserLogin(Login);
-	}
-
 	public User findByEmail(String email) {
 		return userRepo.findByUserEmail(email);
 	}
@@ -66,6 +62,10 @@ public class UserService {
 
 	public User updateUserInfo(User user) {
 		return userRepo.save(user);
+	}
+
+	public User findByUserLogin(String userLogin) {
+		return userRepo.findByUserLogin(userLogin);
 	}
 
 }

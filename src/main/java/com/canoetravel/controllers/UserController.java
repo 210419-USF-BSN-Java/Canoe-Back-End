@@ -45,7 +45,7 @@ public class UserController {
 	@PostMapping(value = "/signup", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> registerUser(@RequestBody User user) {
 
-		if (userService.findByLogin(user.getUserLogin()) != null) {
+		if (userService.findByUserLogin(user.getUserLogin()) != null) {
 			log.warn("Username already exitst");
 			return new ResponseEntity<String>("{\"message\":  \" Username already exists\"}", HttpStatus.BAD_REQUEST);
 		} else if (userService.findByEmail(user.getUserEmail()) != null) {
@@ -120,8 +120,20 @@ public class UserController {
 	}
 	
 	@GetMapping(value = "/getUser/{email}", produces = "application/json")
-    public ResponseEntity<User> getUser(@PathVariable String email) {
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
 		User user = userService.findByEmail(email);
+		if (user != null) {
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+		}else {
+			log.warn("Unable to get user");
+			return new ResponseEntity<>(null, HttpStatus.OK);
+		}
+	}
+	
+	
+	@GetMapping(value = "/getUser/{UserLogin}", produces = "application/json")
+    public ResponseEntity<User> getUserByLogin(@PathVariable String UserLogin) {
+		User user = userService.findByUserLogin(UserLogin);
 		if (user != null) {
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		}else {
