@@ -41,8 +41,8 @@ public class FoodController {
 
 		User authUser = UserController.loginUser;
 		if (authUser != null) {
-			Destination dest = DestinationController.choosedDestination;
-			if (dest != null) {
+			//Destination dest = DestinationController.choosedDestination;
+			//if (dest != null) {
 				localFood.setCustomerId(authUser.getUserId());
 				// localFood.setDestinationId(dest.getDestinationId());
 				LocalFood saveLocalFood = foodService.saveLocalFood(localFood);
@@ -52,10 +52,10 @@ public class FoodController {
 					log.warn("Unable to save local food");
 					return new ResponseEntity<String>("can not save local food", HttpStatus.BAD_REQUEST);
 				}
-			} else {
-				log.warn("Unable to find destination information");
-				return new ResponseEntity<String>("please select the destination first", HttpStatus.BAD_REQUEST);
-			}
+//			} else {
+//				log.warn("Unable to find destination information");
+//				return new ResponseEntity<String>("please select the destination first", HttpStatus.BAD_REQUEST);
+//			}
 		} else {
 			log.warn("No session found");
 			return new ResponseEntity<String>("Please Login or SignUp for account", HttpStatus.UNAUTHORIZED);

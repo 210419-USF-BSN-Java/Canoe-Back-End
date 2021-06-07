@@ -46,24 +46,24 @@ public class LodgingController {
 
 		User authUser = UserController.loginUser;
 		if (authUser != null) {
-			Destination dest = DestinationController.choosedDestination;
-			if (dest != null) {
+			//Destination dest = DestinationController.choosedDestination;
+			//if (dest != null) {
 				// lodging.setDestinationId(dest.getDestinationId());
 				lodging.setCustomerId(authUser.getUserId());
 				Lodging saveLodging = lodgeService.saveLodging(lodging);
 				if (saveLodging != null) {
-					dest.setLodgingId(saveLodging.getLodgingId());
-					destRepo.save(dest);
+					//dest.setLodgingId(saveLodging.getLodgingId());
+					//destRepo.save(dest);
 					// session.setAttribute("destination", dest);
 					return new ResponseEntity<String>("lodging saved successfully", HttpStatus.OK);
 				} else {
 					log.warn("Unable to save lodging data");
 					return new ResponseEntity<String>("can not save lodging", HttpStatus.BAD_REQUEST);
 				}
-			} else {
-				log.warn("Unable to find destination data");
-				return new ResponseEntity<String>("please select the destination first", HttpStatus.BAD_REQUEST);
-			}
+//			} else {
+//				log.warn("Unable to find destination data");
+//				return new ResponseEntity<String>("please select the destination first", HttpStatus.BAD_REQUEST);
+//			}
 		} else {
 			log.warn("Unable to find user session");
 			return new ResponseEntity<String>("Please Login or SignUp for Account", HttpStatus.UNAUTHORIZED);
